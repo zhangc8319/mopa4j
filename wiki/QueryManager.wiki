@@ -13,7 +13,7 @@ This class provides three basic methods to query your documents on the database:
 
 = Details =
 
-You just need to write your own query manager extending QueryManager giving it your data type you want to query to.
+You just need to write your own query manager extending QueryManager giving it your data type you want to query for.
 
 Let's say you have a class like this:
 
