@@ -8,7 +8,7 @@ In this case for POJO we intend POJO IS [ADocumentObject].
 
 It was the first class written at all. After few ours I got the basic to convert my pojos in DBObjects and vice-versa.
 
-After a couple of days I need it to add more features like mapping and converting nested pojos.
+After a couple of days I needed to add more features like mapping and converting nested pojos.
 
 
 = Details =
