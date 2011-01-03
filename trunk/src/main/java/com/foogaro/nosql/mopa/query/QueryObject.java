@@ -67,10 +67,10 @@ public class QueryObject implements IQueryObject {
         return this;
     }
 
-    public QueryObject as(ADocumentObject aDBObject) {
-        if (aDBObject != null) {
+    public QueryObject as(ADocumentObject aDocumentObject) {
+        if (aDocumentObject != null) {
             DBObject dbObject = new BasicDBObject();
-            dbObject.putAll(aDBObject.toMQL());
+            dbObject.putAll(aDocumentObject.toMQL());
             queryParameters.add(dbObject);
         }
         return this;
@@ -125,19 +125,19 @@ public class QueryObject implements IQueryObject {
         return this;
     }
 
-    public QueryObject gt(ADocumentObject aDBObject) {
+    public QueryObject gt(ADocumentObject aDocumentObject) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    public QueryObject lt(ADocumentObject aDBObject) {
+    public QueryObject lt(ADocumentObject aDocumentObject) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    public QueryObject gte(ADocumentObject aDBObject) {
+    public QueryObject gte(ADocumentObject aDocumentObject) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    public QueryObject lte(ADocumentObject aDBObject) {
+    public QueryObject lte(ADocumentObject aDocumentObject) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
