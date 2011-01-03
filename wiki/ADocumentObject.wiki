@@ -9,7 +9,7 @@ It is intend to be used as parent class of any POJOs you would like to manage in
 
 = Details =
 
-To use your POJOs class within MOPA4J you need to extend them from ADocumentObject class.
+To use your _POJOs_ class within *MOPA4J* you need to extend them from ADocumentObject class.
 Just do it this way:
 
 {{{
