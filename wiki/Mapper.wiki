@@ -1,0 +1,22 @@
+#summary This class gives you the capability to convert any _POJOs_ to a _com.mongodb.DBObject_ and vice-versa.
+#labels Phase-Design
+
+= Introduction =
+
+This class gives you the capability to convert any _POJOs_ to a _com.mongodb.DBObject_ and vice-versa. 
+In this case for POJO we intend POJO IS [ADocumentObject].
+
+It was the first class written at all. After few ours I got the basic to convert my pojos in DBObjects and vice-versa.
+
+After a couple of days I need it to add more features like mapping and converting nested pojos.
+
+
+= Details =
+
+As mentioned above, this class provides convertions and mapping methods for to and from [ADocumentObject]/DBObject.
+
+Follow the list of this methods:
+ * public DBObject toDBObject(ADocumentObject aDocumentObject);
+ * public DBObject toDBObject(Map<String, Object> map);
+ * public ADocumentObject toADocumentObject(DBObject dbObject, Class clazz);
+ * public Map<String, Object> toMap(ADocumentObject aDocumentObject);
