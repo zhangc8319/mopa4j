@@ -31,7 +31,9 @@ public Object setValue(Object instance, String fieldName, Object value);
 public Object getValue(Object instance, String propertyName);
 }}}
 
- # _toMQL_ just translates a [ADocumentObject], i.e. your pojo, to a key/value map for querying;
+===toMQL=== 
+
+The method _toMQL()_ just translates a [ADocumentObject], i.e. your pojo, to a key/value map for querying;
 Let's say you have a bunch of users in your db and you want all the users who live in Rome; in the _Mongo Shell_ you will query like this:
 {{{
 db.com.foo.User.find({"city.name" : "Rome"})
@@ -39,13 +41,21 @@ db.com.foo.User.find({"city.name" : "Rome"})
 
 in MOPA4J real world we have to do as follow:
 {{{
+QueryObject queryObject = QueryObject.newInstance();
+
 User user = new User();
 City city = new City();
 city.setName("Rome");
 user.setCity(city);
-QueryObject queryObject = QueryObject.newInstance();
+
 queryObject.as(user);
+
 List<User> userList = userQueryManager.find(queryObject);
 }}}
 
 the _as()_ method will convert your user pojo in a map which contains one key "city.name" with one value "Rome".
+
+
+===setValue and getValue ===
+
+These two methods provide the capabilities to set/get a value for your pojos at runtime.
