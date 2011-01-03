@@ -25,9 +25,9 @@ public class User extends ADocumentObject {
 
 }
 
-public class UserPersistenceManager extends PersistenceManager < User > {
+'public class UserPersistenceManager extends PersistenceManager<User> {
 
-}
+}'
 
 Now you can CRUD your user object/document.
 Remember that the _public T read(T aDocumentObject)_ method looks for the *_id* puery your data on db.
