@@ -12,7 +12,7 @@
     <bean id="mongo" class="com.mongodb.Mongo" />
 
     <bean id="dbManager" class="com.foogaro.nosql.mopa.DBManager">
-        <property name="dbName" value="tallinx"/>
+        <property name="dbName" value="test"/>
         <property name="mongo" ref="mongo"/>
     </bean>
 
