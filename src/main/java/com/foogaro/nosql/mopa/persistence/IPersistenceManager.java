@@ -12,9 +12,9 @@ import com.foogaro.nosql.mopa.ADocumentObject;
  */
 public interface IPersistenceManager<T extends ADocumentObject> {
 
-    public T create(T aDBObject);
-    public T read(T aDBObject);
-    public T update(T aDBObject);
-    public void delete(T aDBObject);
+    public T create(T aDocumentObject);
+    public T read(T aDocumentObject);
+    public T update(T aDocumentObject);
+    public void delete(T aDocumentObject);
     
 }
