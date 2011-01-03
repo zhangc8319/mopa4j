@@ -26,12 +26,6 @@ public class DBManager {
     private String dbName;
 
     public DBManager() {
-        try {
-            mongo = new Mongo();
-            log.debug("Mongo instance running");
-        } catch (UnknownHostException e) {
-            throw new IllegalStateException("Unable to find a default running MongoDB instance", e);
-        }
     }
 
     @PostConstruct
