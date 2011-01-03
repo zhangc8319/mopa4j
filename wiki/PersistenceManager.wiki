@@ -13,8 +13,8 @@ Let's say you have a class like this:
 
 {{{
 public class User {
-  private String name;
 
+  private String name;
   private Date birthdate;
 
   ...getters/setters...
@@ -25,6 +25,7 @@ First make your User class extend ADocumentObject:
 
 {{{
 public class User extends ADocumentObject {
+ ...
 }
 }}}
 
