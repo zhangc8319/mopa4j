@@ -21,7 +21,7 @@ public class User {
 
 First make your User class extend ADocumentObject, then write down your type persistence manager:
 
-public class UserPersistenceManager extends PersistenceManager'<User>' {
+public class UserPersistenceManager extends PersistenceManager < User > {
 
 }
 
