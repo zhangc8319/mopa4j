@@ -1,0 +1,11 @@
+#summary This class is used as base class for others which need direct access to the MongoDB.
+#labels Phase-Design
+ 
+= Introduction =
+
+Not much to add about this unless it is extended by both [PersistenceManager] and [QueryManager].
+
+
+= Details =
+
+N/A
