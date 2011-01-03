@@ -21,12 +21,14 @@ public class User {
 }
 }}}
 
-First make your User class extend ADocumentObject, then write down your typed persistence manager:
+First make your User class extend ADocumentObject:
 
 {{{
 public class User extends ADocumentObject {
 }
 }}}
+
+then write down your typed persistence manager:
 
 {{{
 public class UserPersistenceManager extends PersistenceManager < User > {
