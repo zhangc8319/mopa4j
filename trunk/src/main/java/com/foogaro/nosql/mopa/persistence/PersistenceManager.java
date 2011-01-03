@@ -23,16 +23,16 @@ public abstract class PersistenceManager<T extends ADocumentObject> extends ABas
         log.debug("PersistenceManager created");
     }
 
-    public T create(T aDBObject) {
-        log.debug("Creating document " + aDBObject);
-        dbCollection.insert(mapper.toDBObject(aDBObject));
-        return aDBObject;
+    public T create(T aDocumentObject) {
+        log.debug("Creating document " + aDocumentObject);
+        dbCollection.insert(mapper.toDBObject(aDocumentObject));
+        return aDocumentObject;
     }
 
-    public T read(T aDBObject) {
-        log.debug("Reading document " + aDBObject);
+    public T read(T aDocumentObject) {
+        log.debug("Reading document " + aDocumentObject);
         BasicDBObject query = new BasicDBObject();
-        query.put("_id", aDBObject.get("_id"));
+        query.put("_id", aDocumentObject.get("_id"));
         DBCursor dbCursor = dbCollection.find(query);
 
         Object result = null;
@@ -45,15 +45,15 @@ public abstract class PersistenceManager<T extends ADocumentObject> extends ABas
         return null;
     }
 
-    public T update(T aDBObject) {
-        log.debug("Updating document " + aDBObject);
-        dbCollection.save(aDBObject);
-        return aDBObject;
+    public T update(T aDocumentObject) {
+        log.debug("Updating document " + aDocumentObject);
+        dbCollection.save(aDocumentObject);
+        return aDocumentObject;
     }
 
-    public void delete(T aDBObject) {
-        log.debug("Deleting document " + aDBObject);
-        dbCollection.remove(aDBObject);
+    public void delete(T aDocumentObject) {
+        log.debug("Deleting document " + aDocumentObject);
+        dbCollection.remove(aDocumentObject);
     }
 
 }
