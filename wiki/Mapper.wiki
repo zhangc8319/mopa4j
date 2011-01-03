@@ -15,8 +15,37 @@ After a couple of days I need it to add more features like mapping and convertin
 
 As mentioned above, this class provides convertions and mapping methods for to and from [ADocumentObject]/DBObject.
 
-Follow the list of this methods:
- * public DBObject toDBObject(ADocumentObject aDocumentObject);
- * public DBObject toDBObject(Map<String, Object> map);
- * public ADocumentObject toADocumentObject(DBObject dbObject, Class clazz);
- * public Map<String, Object> toMap(ADocumentObject aDocumentObject);
+Follows the list of methods:
+{{{
+public DBObject toDBObject(ADocumentObject aDocumentObject);
+public DBObject toDBObject(Map<String, Object> map);
+public ADocumentObject toADocumentObject(DBObject dbObject, Class clazz);
+public Map<String, Object> toMap(ADocumentObject aDocumentObject);
+}}}
+
+Those methods are quite intuitive.
+Here are three more method which needs few, very few words of explanation:
+{{{
+public Map<String, Object> toMQL(ADocumentObject aDocumentObject);
+public Object setValue(Object instance, String fieldName, Object value);
+public Object getValue(Object instance, String propertyName);
+}}}
+
+ # _toMQL_ just translates a [ADocumentObject], i.e. your pojo, to a key/value map for querying;
+Let's say you have a bunch of users in your db and you want all the users who live in Rome; in the _Mongo Shell_ you will query like this:
+{{{
+db.com.foo.User.find({"city.name" : "Rome"})
+}}}
+
+in MOPA4J real world we have to do as follow:
+{{{
+User user = new User();
+City city = new City();
+city.setName("Rome");
+user.setCity(city);
+QueryObject queryObject = QueryObject.newInstance();
+queryObject.as(user);
+List<User> userList = userQueryManager.find(queryObject);
+}}}
+
+the _as()_ method will convert your user pojo in a map which contains one key "city.name" with one value "Rome".
