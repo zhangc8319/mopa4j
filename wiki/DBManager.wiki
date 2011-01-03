@@ -23,10 +23,10 @@ Within your Spring configuration files you have to provide few more lines:
 
 This will create in Spring context two singletons:
  # a com.mongodb.MongoDB named mongo;
- # a com.foogaro.nosql.mopa.[DBManager] dbManager;
+ # a com.foogaro.nosql.mopa.DBManager dbManager;
 
 MongoDB represents the database instance. Yeah I know it misses all the options like host, port and authentication. I'll implement this as soon as I can. ;)
 
-[DBManager] is used to obtain both the DB and DBCollection objects using the previous _mongo_ reference.
+DBManager is used to obtain both the DB and DBCollection objects using the previous _mongo_ reference.
 
 The DBManager instance is injected into an abstract class named [ABaseManager], which is extended by both [PersistenceManager] and [QueryManager].
