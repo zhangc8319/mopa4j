@@ -1,4 +1,4 @@
-#summary This class gives you the capability to convert any _POJOs_ to a _com.mongodb.DBObject_ and vice-versa.
+#summary This class gives you the capability to convert any POJOs to a com.mongodb.DBObject and vice-versa.
 #labels Phase-Design
 
 = Introduction =
