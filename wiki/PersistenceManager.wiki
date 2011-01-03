@@ -19,7 +19,11 @@ public class User {
   ...getters/setters...
 }
 
-First make your User class extend ADocumentObject, then write down your type persistence manager:
+First make your User class extend ADocumentObject, then write down your typed persistence manager:
+
+public class User extends ADocumentObject {
+
+}
 
 public class UserPersistenceManager extends PersistenceManager < User > {
 
