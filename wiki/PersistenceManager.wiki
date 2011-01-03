@@ -41,6 +41,6 @@ Now you can CRUD your User object/document.
 
 Remember that the 
 {{{
-_public T read(T aDocumentObject)_
+public T read(T aDocumentObject);
 }}}
-method looks for the *_id* to query your data on the database.
+method of the PersistenceManager looks for the *_id* to query your data on the database.
