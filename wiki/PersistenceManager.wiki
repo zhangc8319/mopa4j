@@ -37,4 +37,9 @@ public class UserPersistenceManager extends PersistenceManager < User > {
 }}}
 
 Now you can CRUD your User object/document.
-Remember that the _public T read(T aDocumentObject)_ method looks for the *_id* puery your data on db.
+
+Remember that the 
+{{{
+_public T read(T aDocumentObject)_
+}}}
+method looks for the *_id* to query your data on the database.
