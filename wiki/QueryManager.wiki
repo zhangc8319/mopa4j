@@ -27,7 +27,7 @@ public class User {
 }
 }}}
 
-First make your User class extend ADocumentObject:
+First make your User class extend ADocumentObject :
 
 {{{
 public class User extends ADocumentObject {
