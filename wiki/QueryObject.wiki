@@ -1,6 +1,5 @@
 #labels Phase-Implementation
-
-#summary Object used to create a stack of query conditions.
+Object used to create a stack of query conditions.
 
 = Introduction =
 
