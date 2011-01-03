@@ -11,7 +11,7 @@ import javax.annotation.PostConstruct;
 import java.net.UnknownHostException;
 
 /**
- * This class is used as singletone to wrap the access to the MongoDB. 
+ * This class is used as singleton to wrap the access to the MongoDB. 
  * @author Luigi Fugaro
  * @version 1.0
  * @since 1.0
