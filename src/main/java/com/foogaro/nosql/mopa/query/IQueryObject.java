@@ -20,7 +20,7 @@ public interface IQueryObject {
     public QueryObject or(String key, Object... values);
     public QueryObject nor(String key, Object... values);
 
-    public QueryObject as(ADocumentObject aDBObject);
+    public QueryObject as(ADocumentObject aDocumentObject);
 
     public QueryObject starts(String key, String value);
     public QueryObject like(String key, String value);
@@ -29,10 +29,10 @@ public interface IQueryObject {
     public QueryObject in(String key, List<Object> values);
     public QueryObject nin(String key, List<Object> values);
 
-    public QueryObject gt(ADocumentObject aDBObject);
-    public QueryObject lt(ADocumentObject aDBObject);
-    public QueryObject gte(ADocumentObject aDBObject);
-    public QueryObject lte(ADocumentObject aDBObject);
+    public QueryObject gt(ADocumentObject aDocumentObject);
+    public QueryObject lt(ADocumentObject aDocumentObject);
+    public QueryObject gte(ADocumentObject aDocumentObject);
+    public QueryObject lte(ADocumentObject aDocumentObject);
 
     public QueryObject gt(String key, Object value);
     public QueryObject lt(String key, Object value);
