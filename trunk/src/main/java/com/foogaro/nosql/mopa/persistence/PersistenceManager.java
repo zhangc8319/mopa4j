@@ -5,13 +5,16 @@ import com.foogaro.nosql.mopa.ADocumentObject;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+import com.mongodb.WriteResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.LinkedList;
 
 /**
  * Abstract class used for CRUD operations.
  * @author Luigi Fugaro
- * @version 1.0
+ * @version 1.0.1
  * @since 1.0
  */
 public abstract class PersistenceManager<T extends ADocumentObject> extends ABaseManager<T> implements IPersistenceManager<T> {
@@ -25,7 +28,9 @@ public abstract class PersistenceManager<T extends ADocumentObject> extends ABas
 
     public T create(T aDocumentObject) {
         log.debug("Creating document " + aDocumentObject);
-        dbCollection.insert(mapper.toDBObject(aDocumentObject));
+        DBObject dbObject = mapper.toDBObject(aDocumentObject);
+        dbCollection.insert(dbObject);
+        mapper.toADocumentObject(dbObject, aDocumentObject);
         return aDocumentObject;
     }
 
