@@ -1,6 +1,5 @@
 package com.foogaro.nosql.mopa;
 
-import com.foogaro.nosql.mopa.annotation.DBRef;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.BasicDBObjectBuilder;
@@ -14,7 +13,7 @@ import java.util.*;
 /**
  * This class gives you the capability to convert any POJO to a DBObject and vice-versa.
  * @author Luigi Fugaro
- * @version 1.0
+ * @version 1.0.1
  * @since 1.0
  */
 public class Mapper {
