@@ -1,5 +1,6 @@
 package com.foogaro.nosql.mopa;
 
+import com.foogaro.nosql.mopa.annotation.DBRef;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.BasicDBObjectBuilder;
@@ -69,19 +70,28 @@ public class Mapper {
         return result;
     }
 
-    public ADocumentObject toADocumentObject(DBObject dbObject, Class clazz) {
+    public ADocumentObject toADocumentObject(DBObject dbObject, Class<? extends ADocumentObject> clazz) {
+        return toADocumentObject(dbObject, clazz, null);
+    }
 
+    public ADocumentObject toADocumentObject(DBObject dbObject, ADocumentObject aDocumentObject) {
+        return toADocumentObject(dbObject, null, aDocumentObject);
+    }
+
+    private ADocumentObject toADocumentObject(DBObject dbObject, Class<? extends ADocumentObject> clazz, ADocumentObject aDocumentObject) {
         Map<String, Object> map = dbObject.toMap();
         Set<String> keys = map.keySet();
 
         Object value = null;
-        ADocumentObject aDocumentObject = null;
-        try {
-            aDocumentObject = (ADocumentObject) clazz.newInstance();
-        } catch (InstantiationException e) {
-            log.error(e.getMessage(), e);
-        } catch (IllegalAccessException e) {
-            log.error(e.getMessage(), e);
+
+        if (aDocumentObject == null)  {
+            try {
+                aDocumentObject = (ADocumentObject) clazz.newInstance();
+            } catch (InstantiationException e) {
+                log.error(e.getMessage(), e);
+            } catch (IllegalAccessException e) {
+                log.error(e.getMessage(), e);
+            }
         }
 
         Class cls = null;
@@ -122,6 +132,7 @@ public class Mapper {
             }
         }
         return aDocumentObject;
+
     }
 
     private Set toSet(BasicDBList basicDBList, Type type) {
@@ -207,11 +218,6 @@ public class Mapper {
         return basicDBObjectBuilder.get();
     }
 
-    public DBObject toDBObject(Map<String, Object> map) {
-        BasicDBObjectBuilder basicDBObjectBuilder = BasicDBObjectBuilder.start(map);
-        return basicDBObjectBuilder.get();
-    }
-
     public Map<String, Object> toMap(ADocumentObject aDocumentObject) {
         if (aDocumentObject != null) {
             Field[] fields = aDocumentObject.getClass().getDeclaredFields();
@@ -220,6 +226,11 @@ public class Mapper {
             }
         }
         return null;
+    }
+
+    public DBObject toDBObject(Map<String, Object> map) {
+        BasicDBObjectBuilder basicDBObjectBuilder = BasicDBObjectBuilder.start(map);
+        return basicDBObjectBuilder.get();
     }
 
 //    public Map<String, Object> toMap(DBObject dbObject) {
