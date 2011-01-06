@@ -1,4 +1,4 @@
-package com.foogaro.nosql.mopa.query;
+package com.foogaro.nosql.mopa4j.query;
 
 import com.foogaro.nosql.mopa.ABaseManager;
 import com.foogaro.nosql.mopa.ADocumentObject;

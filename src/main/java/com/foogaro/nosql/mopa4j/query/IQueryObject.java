@@ -1,4 +1,4 @@
-package com.foogaro.nosql.mopa.query;
+package com.foogaro.nosql.mopa4j.query;
 
 import com.foogaro.nosql.mopa.ADocumentObject;
 
@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Little shy on this one. I did not know there was a QueryBuilder object in the MongoDB Java driver.
  * Anyway I think mine is better because takes advantage of my Mapper class; everything is converted for you and mapped in the right way. I hope!
- * @see com.foogaro.nosql.mopa.query.QueryObject
+ * @see QueryObject
  * @author Luigi Fugaro
  * @version 1.0
  * @since 1.0
