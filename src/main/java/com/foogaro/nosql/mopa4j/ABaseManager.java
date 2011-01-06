@@ -1,6 +1,6 @@
-package com.foogaro.nosql.mopa;
+package com.foogaro.nosql.mopa4j;
 
-import com.foogaro.nosql.mopa.exception.PersistenceManagerException;
+import com.foogaro.nosql.mopa4j.exception.PersistenceManagerException;
 import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
 import org.slf4j.Logger;
