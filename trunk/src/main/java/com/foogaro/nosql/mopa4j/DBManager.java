@@ -1,4 +1,4 @@
-package com.foogaro.nosql.mopa;
+package com.foogaro.nosql.mopa4j;
 
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
-import java.net.UnknownHostException;
 
 /**
  * This class is used as singleton to wrap the access to the MongoDB. 
