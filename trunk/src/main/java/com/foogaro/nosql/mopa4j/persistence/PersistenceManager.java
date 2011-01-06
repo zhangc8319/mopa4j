@@ -1,15 +1,12 @@
-package com.foogaro.nosql.mopa.persistence;
+package com.foogaro.nosql.mopa4j.persistence;
 
 import com.foogaro.nosql.mopa.ABaseManager;
 import com.foogaro.nosql.mopa.ADocumentObject;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-import com.mongodb.WriteResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.LinkedList;
 
 /**
  * Abstract class used for CRUD operations.
