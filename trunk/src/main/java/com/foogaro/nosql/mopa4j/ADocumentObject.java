@@ -3,8 +3,8 @@ package com.foogaro.nosql.mopa4j;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import org.bson.BSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.PostConstruct;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,13 +21,12 @@ public abstract class ADocumentObject implements DBObject {
 
     protected Map<String, Object> wrapper = new HashMap<String, Object>();
     protected boolean partialObject = false;
-    @Autowired
-    protected MappingHelper mappingHelper;
+    private MappingHelper mappingHelper;
 
-    public ADocumentObject() {
-        initWrapper();
+    protected ADocumentObject() {
     }
 
+    @PostConstruct
     private void initWrapper() {
         Field[] fields = this.getClass().getDeclaredFields();
         for (Field field : fields) {
@@ -93,5 +92,9 @@ public abstract class ADocumentObject implements DBObject {
 
     public Set<String> keySet() {
         return wrapper.keySet();
+    }
+
+    public void setMappingHelper(MappingHelper mappingHelper) {
+        this.mappingHelper = mappingHelper;
     }
 }
