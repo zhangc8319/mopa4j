@@ -1,5 +1,6 @@
 package com.foogaro.nosql.mopa4j;
 
+import com.foogaro.nosql.mopa4j.annotation.DBReferenced;
 import org.bson.types.ObjectId;
 
 /**
@@ -7,11 +8,13 @@ import org.bson.types.ObjectId;
  * @version 1.0
  * @since 1.1
  */
-public class Nation extends ADocumentObject {
+public class Nation  {
 
     private ObjectId _id;
     private String code;
     private String name;
+    @DBReferenced
+    private City city;
 
     public ObjectId get_id() {
         return _id;
@@ -37,12 +40,21 @@ public class Nation extends ADocumentObject {
         this.name = name;
     }
 
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
     @Override
     public String toString() {
         return "Nation{" +
                 "_id=" + _id +
                 ", code='" + code + '\'' +
                 ", name='" + name + '\'' +
+                ", city=" + city +
                 '}';
     }
 }

@@ -27,12 +27,12 @@ public class CacheObject {
         return (String[])cache.keySet().toArray(new String[cache.size()]);
     }
 
-    public Object getFieldValue(ADocumentObject aDocumentObject, String fieldName) {
+    public Object getFieldValue(Object object, String fieldName) {
         FieldCacheObject fieldCacheObject = cache.get(fieldName);
 
         Object value = null;
         try {
-            value = fieldCacheObject.getGetter().invoke(aDocumentObject);
+            value = fieldCacheObject.getGetter().invoke(object);
         } catch (IllegalAccessException e) {
             log.error(e.getMessage(), e);
         } catch (InvocationTargetException e) {
@@ -78,13 +78,13 @@ public class CacheObject {
         return cache.get(fieldName).isDbReferenced();
     }
 
-    protected FieldCacheObject newFieldCacheObject(ADocumentObject aDocumentObject, Field field) {
+    protected FieldCacheObject newFieldCacheObject(Object object, Field field) {
         FieldCacheObject fieldCacheObject = new FieldCacheObject();
         fieldCacheObject.setName(field.getName());
         fieldCacheObject.setFieldType(field.getType());
         fieldCacheObject.setClassName(((Class)fieldCacheObject.getFieldType()).getName());
-        fieldCacheObject.setGetter(getGetterMethod(aDocumentObject, fieldCacheObject));
-        fieldCacheObject.setSetter(getSetterMethod(aDocumentObject, fieldCacheObject));
+        fieldCacheObject.setGetter(getGetterMethod(object, fieldCacheObject));
+        fieldCacheObject.setSetter(getSetterMethod(object, fieldCacheObject));
         fieldCacheObject.setDbReferenced(field.isAnnotationPresent(DBReferenced.class));
 
         cache.put(fieldCacheObject.getName(), fieldCacheObject);
@@ -93,23 +93,23 @@ public class CacheObject {
         return fieldCacheObject;
     }
 
-    private Method getGetterMethod(ADocumentObject aDocumentObject, FieldCacheObject fieldCacheObject) {
+    private Method getGetterMethod(Object object, FieldCacheObject fieldCacheObject) {
         Method method = null;
         try {
-            method = aDocumentObject.getClass().getMethod(getGetterMethodName(fieldCacheObject));
+            method = object.getClass().getMethod(getGetterMethodName(fieldCacheObject));
         } catch (NoSuchMethodException e) {
             log.error(e.getMessage(), e);
         }
         return method;
     }
 
-    private Method getSetterMethod(ADocumentObject aDocumentObject, FieldCacheObject fieldCacheObject) {
+    private Method getSetterMethod(Object object, FieldCacheObject fieldCacheObject) {
         Method method = null;
         try {
             if (fieldCacheObject.isCollection()){
-                method = aDocumentObject.getClass().getMethod(getSetterMethodName(fieldCacheObject), (Class)fieldCacheObject.getCollectionType());
+                method = object.getClass().getMethod(getSetterMethodName(fieldCacheObject), (Class)fieldCacheObject.getCollectionType());
             } else {
-                method = aDocumentObject.getClass().getMethod(getSetterMethodName(fieldCacheObject), (Class)fieldCacheObject.getFieldType());
+                method = object.getClass().getMethod(getSetterMethodName(fieldCacheObject), (Class)fieldCacheObject.getFieldType());
             }
         } catch (NoSuchMethodException e) {
             log.error(e.getMessage(), e);

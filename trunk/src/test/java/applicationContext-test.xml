@@ -11,10 +11,6 @@
 
     <bean id="mongo" class="com.mongodb.Mongo" />
 
-    <bean id="dbReferencedHandler" class="com.foogaro.nosql.mopa4j.persistence.DBReferencedHandler"/>
-    
-    <bean id="mappingHelper" class="com.foogaro.nosql.mopa4j.MappingHelper"/>
-
     <bean id="dbManager" class="com.foogaro.nosql.mopa4j.DBManager">
         <property name="dbName" value="test"/>
         <property name="mongo" ref="mongo"/>

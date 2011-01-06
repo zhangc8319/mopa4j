@@ -1,13 +1,12 @@
 package com.foogaro.nosql.mopa4j;
 
-import com.foogaro.nosql.mopa4j.persistence.DBReferencedHandler;
-import com.mongodb.BasicDBList;
-import com.mongodb.BasicDBObject;
-import com.mongodb.BasicDBObjectBuilder;
-import com.mongodb.DBObject;
+import com.foogaro.nosql.mopa4j.persistence.DBReferenceManager;
+import com.mongodb.*;
+import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -20,6 +19,7 @@ import java.util.*;
  * @version 1.0.1
  * @since 1.0
  */
+@Component
 public class MappingHelper {
 
     private static final Logger log = LoggerFactory.getLogger(MappingHelper.class);
@@ -27,12 +27,12 @@ public class MappingHelper {
     private IMapperCache mapperCache = new MapperCache();
 
     @Autowired
-    private DBReferencedHandler dbReferencedHandler;
+    private DBReferenceManager dbReferenceManager;
 
-    public Map<String, Object> toMQL(ADocumentObject aDocumentObject) {
+    public Map<String, Object> toMQL(Object object) {
 
         Map<String, Object> map = new HashMap<String, Object>();
-        map.putAll(toMap(aDocumentObject));
+        map.putAll(toMap(object));
 
         Set<String> keys = map.keySet();
         Object value = null;
@@ -78,23 +78,23 @@ public class MappingHelper {
         return result;
     }
 
-    public ADocumentObject toADocumentObject(DBObject dbObject, Class<? extends ADocumentObject> clazz) {
-        return toADocumentObject(dbObject, clazz, null);
+    public Object toObject(DBObject dbObject, Class clazz) {
+        return toObject(dbObject, clazz, null);
     }
 
-    public ADocumentObject toADocumentObject(DBObject dbObject, ADocumentObject aDocumentObject) {
-        return toADocumentObject(dbObject, null, aDocumentObject);
+    public Object toObject(DBObject dbObject, Object object) {
+        return toObject(dbObject, null, object);
     }
 
-    private ADocumentObject toADocumentObject(DBObject dbObject, Class<? extends ADocumentObject> clazz, ADocumentObject aDocumentObject) {
+    private Object toObject(DBObject dbObject, Class clazz, Object instance) {
         Map<String, Object> map = dbObject.toMap();
         Set<String> keys = map.keySet();
 
         Object value = null;
 
-        if (aDocumentObject == null)  {
+        if (instance == null)  {
             try {
-                aDocumentObject = (ADocumentObject) clazz.newInstance();
+                instance = clazz.newInstance();
             } catch (InstantiationException e) {
                 log.error(e.getMessage(), e);
             } catch (IllegalAccessException e) {
@@ -108,33 +108,29 @@ public class MappingHelper {
             log.debug("key: " + key);
             log.debug("value: " + value);
             if (value instanceof BasicDBObject) {
-                if (mapperCache.isDbReferenced(aDocumentObject, key)) {
-                    DBObject ref = dbReferencedHandler.read((DBObject)value, mapperCache.getFieldClass(aDocumentObject, key));
+                if (mapperCache.isDbReferenced(instance, key)) {
+                    DBObject ref = dbReferenceManager.read((DBObject)value, mapperCache.getFieldClass(instance, key));
                     log.debug("ref: " + ref);
-                    ADocumentObject ref2 = toADocumentObject(ref, mapperCache.getFieldClass(aDocumentObject, key));
-                    invokeSetter(aDocumentObject, key, ref2);
+                    Object ref2 = toObject(ref, mapperCache.getFieldClass(instance, key));
+                    invokeSetter(instance, key, ref2);
                 } else {
-                    ADocumentObject bm = toADocumentObject((DBObject)value, mapperCache.getFieldClass(aDocumentObject, key));
-                    invokeSetter(aDocumentObject, key, bm);
+                    Object bm = toObject((DBObject)value, mapperCache.getFieldClass(instance, key));
+                    invokeSetter(instance, key, bm);
                 }
             } else if (value instanceof BasicDBList) {
-                if (Set.class.equals(mapperCache.getCollectionType(aDocumentObject, key))) {
-                    Set set = toSet((BasicDBList)value, mapperCache.getCollectionArgumentType(aDocumentObject, key));
-                    invokeSetter(aDocumentObject, key, (Set)set);
-                } else if (List.class.equals(mapperCache.getCollectionType(aDocumentObject, key))) {
-                    List list = toList((BasicDBList)value, mapperCache.getCollectionArgumentType(aDocumentObject, key));
-                    invokeSetter(aDocumentObject, key, list);
+                if (Set.class.equals(mapperCache.getCollectionType(instance, key))) {
+                    Set set = toSet((BasicDBList)value, mapperCache.getCollectionArgumentType(instance, key));
+                    invokeSetter(instance, key, (Set)set);
+                } else if (List.class.equals(mapperCache.getCollectionType(instance, key))) {
+                    List list = toList((BasicDBList)value, mapperCache.getCollectionArgumentType(instance, key));
+                    invokeSetter(instance, key, list);
                 }
-            } else if (value instanceof DBReferencedObject) {
-                DBObject ref = dbReferencedHandler.read((DBObject)value, mapperCache.getFieldClass(aDocumentObject, key));
-                log.debug("ref: " + ref);
-                invokeSetter(aDocumentObject, key, toADocumentObject(ref, mapperCache.getFieldClass(aDocumentObject, key)));
             } else {
-                invokeSetter(aDocumentObject, key, value);
+                invokeSetter(instance, key, value);
             }
         }
-        log.debug("aDocumentObject: " + aDocumentObject);
-        return aDocumentObject;
+        log.debug("instance: " + instance);
+        return instance;
 
     }
 
@@ -196,10 +192,10 @@ public class MappingHelper {
         return list;
     }
 
-    private void invokeSetter(ADocumentObject aDocumentObject, String fieldName, Object value) {
+    private void invokeSetter(Object object, String fieldName, Object value) {
         try {
-            Method method = mapperCache.getSetter(aDocumentObject, fieldName);
-            method.invoke(aDocumentObject, value);
+            Method method = mapperCache.getSetter(object, fieldName);
+            method.invoke(object, value);
         } catch (InvocationTargetException e) {
             log.error(e.getMessage(), e);
         } catch (IllegalAccessException e) {
@@ -207,15 +203,15 @@ public class MappingHelper {
         }
     }
 
-    public DBObject toDBObject(ADocumentObject aDocumentObject) {
+    public DBObject toDBObject(Object object) {
         BasicDBObjectBuilder basicDBObjectBuilder = BasicDBObjectBuilder.start();
-        basicDBObjectBuilder.get().putAll(toMap(aDocumentObject));
+        basicDBObjectBuilder.get().putAll(toMap(object));
         return basicDBObjectBuilder.get();
     }
 
-    public Map<String, Object> toMap(ADocumentObject aDocumentObject) {
-        if (aDocumentObject != null) {
-            return processFields(aDocumentObject);
+    public Map<String, Object> toMap(Object object) {
+        if (object != null) {
+            return scanObject(object);
         }
         return null;
     }
@@ -225,36 +221,54 @@ public class MappingHelper {
         return basicDBObjectBuilder.get();
     }
 
-    private Map<String, Object> processFields(ADocumentObject aDocumentObject) {
+    private Map<String, Object> scanObject(Object object) {
 
         Map<String, Object> documentMap = new HashMap<String, Object>();
 
         Object fieldValue = null;
         try {
-            String [] fields = mapperCache.getFields(aDocumentObject);
+            String [] fields = mapperCache.getFields(object);
             for (String field : fields) {
                 if (field != null) {
-                    fieldValue = mapperCache.getFieldValue(aDocumentObject, field);
+                    fieldValue = mapperCache.getFieldValue(object, field);
                     if (fieldValue != null) {
-                        if (mapperCache.isCustom(aDocumentObject, field)) {
-                            log.debug("Looks like we have a custom type: " + mapperCache.getFieldClassName(aDocumentObject, field));
-                            if (mapperCache.isDbReferenced(aDocumentObject,field)) {
-                                Object idValue = mapperCache.getFieldValue(aDocumentObject, "_id");
+                        if (mapperCache.isCustom(object, field)) {
+                            log.debug("Looks like we have a custom type: " + mapperCache.getFieldClassName(object, field));
+                            if (mapperCache.isDbReferenced(object,field)) {
+                                log.debug("Looks like " + field + " is DBReferenced");
+                                Object idValue = mapperCache.getFieldValue(object, "_id");
                                 if (idValue == null) {
-                                    //insert and create the DBRef object and set it
-                                    if (mapperCache.isSomeDBReferenced((ADocumentObject) fieldValue)) {
-                                        ((ADocumentObject) fieldValue).putAll(toDBObject((ADocumentObject)fieldValue));
-                                    } else {
-                                        DBObject dbObject = dbReferencedHandler.insert(toDBObject((ADocumentObject) fieldValue), fieldValue.getClass());
-                                        documentMap.put(field, dbObject);
-                                    }
+                                    DBObject dbObject = dbReferenceManager.insert(toDBObject(fieldValue), fieldValue.getClass());
+                                    log.debug("dbObject: " + dbObject);
+                                    ObjectId objectId = (ObjectId)dbObject.get("_id");
+                                    log.debug("objectId: " + objectId);
+                                    String className = fieldValue.getClass().getName();
+                                    log.debug("className: " + className);
+                                    DBObject ref = new BasicDBObject();
+                                    ref.put("ref", className);
+                                    ref.put("_id", objectId);
+                                    log.debug("ref: " + ref);
+                                    documentMap.put(field, ref);
+//                                    if (mapperCache.isSomeDBReferenced(fieldValue)) {
+//                                        log.debug("But " + mapperCache.getFieldClassName(object, field) + " also has some DBReferenced field(s)");
+//                                        DBObject dbObject = dbReferenceManager.insert(toDBObject(fieldValue), fieldValue.getClass());
+//                                        DBObject ref = new BasicDBObject();
+//                                        ref.put("ref", fieldValue.getClass().getName());
+//                                        ref.put("_id", (ObjectId)dbObject.get("_id"));
+//                                        documentMap.put(field, ref);
+//                                    } else {
+//                                        DBObject dbObject = dbReferenceManager.insert(toDBObject(fieldValue), fieldValue.getClass());
+//                                        DBObject ref = new BasicDBObject();
+//                                        ref.put("ref", fieldValue.getClass().getName());
+//                                        ref.put("_id", (ObjectId)dbObject.get("_id"));
+//                                        documentMap.put(field, ref);
+//                                    }
                                 } else {
-                                    DBObject dbObject = dbReferencedHandler.read(toDBObject((ADocumentObject) fieldValue), fieldValue.getClass());
+                                    DBObject dbObject = dbReferenceManager.read(toDBObject(fieldValue), fieldValue.getClass());
                                     documentMap.put(field, dbObject);
                                 }
-                                log.debug("Looks like it is DBReferenced");
                             } else {
-                                documentMap.put(field, toDBObject((ADocumentObject)fieldValue));
+                                documentMap.put(field, toDBObject(fieldValue));
                             }
                         } else {
                             if (fieldValue.getClass().isArray()) {
@@ -294,7 +308,7 @@ public class MappingHelper {
 
     public Object setValue(Object instance, String fieldName, Object value) {
         try {
-            Method method = mapperCache.getSetter((ADocumentObject) instance, fieldName);
+            Method method = mapperCache.getSetter(instance, fieldName);
             return method.invoke(instance, value);
         } catch (InvocationTargetException e) {
             log.error(e.getMessage(), e);
@@ -309,7 +323,7 @@ public class MappingHelper {
 
     public Object getValue(Object instance, String fieldName) {
         try {
-            Method method = mapperCache.getGetter((ADocumentObject) instance, fieldName);
+            Method method = mapperCache.getGetter(instance, fieldName);
             return method.invoke(instance);
         } catch (InvocationTargetException e) {
             log.error(e.getMessage(), e);

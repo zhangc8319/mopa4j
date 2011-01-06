@@ -1,5 +1,7 @@
 package com.foogaro.nosql.mopa4j;
 
+import com.mongodb.DBObject;
+
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 
@@ -10,17 +12,17 @@ import java.lang.reflect.Type;
  */
 public interface IMapperCache {
 
-    public String[] getFields(ADocumentObject aDocumentObject);
-    public Object getFieldValue(ADocumentObject aDocumentObject, String fieldName);
-    public Class getFieldClass(ADocumentObject aDocumentObject, String fieldName);
-    public String getFieldClassName(ADocumentObject aDocumentObject, String fieldName);
-    public Method getGetter(ADocumentObject aDocumentObject, String fieldName);
-    public Method getSetter(ADocumentObject aDocumentObject, String fieldName);
-    public Type getCollectionType(ADocumentObject aDocumentObject, String fieldName);
-    public Type getCollectionArgumentType(ADocumentObject aDocumentObject, String fieldName);
-    public boolean isCustom(ADocumentObject aDocumentObject, String fieldName);
-    public boolean isCollection(ADocumentObject aDocumentObject, String fieldName);
-    public boolean isSomeDBReferenced(ADocumentObject aDocumentObject);
-    public boolean isDbReferenced(ADocumentObject aDocumentObject, String fieldName);
+    public String[] getFields(Object object);
+    public Object getFieldValue(Object object, String fieldName);
+    public Class getFieldClass(Object object, String fieldName);
+    public String getFieldClassName(Object object, String fieldName);
+    public Method getGetter(Object object, String fieldName);
+    public Method getSetter(Object object, String fieldName);
+    public Type getCollectionType(Object object, String fieldName);
+    public Type getCollectionArgumentType(Object object, String fieldName);
+    public boolean isCustom(Object object, String fieldName);
+    public boolean isCollection(Object object, String fieldName);
+    public boolean isSomeDBReferenced(Object object);
+    public boolean isDbReferenced(Object object, String fieldName);
 
 }
