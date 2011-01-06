@@ -15,86 +15,86 @@ public class MapperCache implements IMapperCache {
 
     private Map<String, CacheObject> cache = new HashMap<String, CacheObject>();
 
-    public String[] getFields(ADocumentObject aDocumentObject) {
-        CacheObject cacheObject = get(aDocumentObject);
-        return cache.get(unique(aDocumentObject)).getFields();
+    public String[] getFields(Object object) {
+        CacheObject cacheObject = get(object);
+        return cache.get(unique(object)).getFields();
     }
 
-    public Object getFieldValue(ADocumentObject aDocumentObject, String fieldName) {
-        CacheObject cacheObject = get(aDocumentObject);
-        return cacheObject.getFieldValue(aDocumentObject, fieldName);
+    public Object getFieldValue(Object object, String fieldName) {
+        CacheObject cacheObject = get(object);
+        return cacheObject.getFieldValue(object, fieldName);
     }
 
-    public Class getFieldClass(ADocumentObject aDocumentObject, String fieldName) {
-        CacheObject cacheObject = get(aDocumentObject);
+    public Class getFieldClass(Object object, String fieldName) {
+        CacheObject cacheObject = get(object);
         return cacheObject.getFieldClass(fieldName);
     }
 
-    public String getFieldClassName(ADocumentObject aDocumentObject, String fieldName) {
-        CacheObject cacheObject = get(aDocumentObject);
+    public String getFieldClassName(Object object, String fieldName) {
+        CacheObject cacheObject = get(object);
         return cacheObject.getFieldClassName(fieldName);
     }
 
-    public Method getGetter(ADocumentObject aDocumentObject, String fieldName) {
-        CacheObject cacheObject = get(aDocumentObject);
+    public Method getGetter(Object object, String fieldName) {
+        CacheObject cacheObject = get(object);
         return cacheObject.getGetter(fieldName);
     }
 
-    public Method getSetter(ADocumentObject aDocumentObject, String fieldName) {
-        CacheObject cacheObject = get(aDocumentObject);
+    public Method getSetter(Object object, String fieldName) {
+        CacheObject cacheObject = get(object);
         return cacheObject.getSetter(fieldName);
     }
 
-    public Type getCollectionType(ADocumentObject aDocumentObject, String fieldName) {
-        CacheObject cacheObject = get(aDocumentObject);
+    public Type getCollectionType(Object object, String fieldName) {
+        CacheObject cacheObject = get(object);
         return cacheObject.getCollectionType(fieldName);
     }
 
-    public Type getCollectionArgumentType(ADocumentObject aDocumentObject, String fieldName) {
-        CacheObject cacheObject = get(aDocumentObject);
+    public Type getCollectionArgumentType(Object object, String fieldName) {
+        CacheObject cacheObject = get(object);
         return cacheObject.getCollectionArgumentType(fieldName);
     }
 
-    public boolean isCustom(ADocumentObject aDocumentObject, String fieldName) {
-        CacheObject cacheObject = get(aDocumentObject);
+    public boolean isCustom(Object object, String fieldName) {
+        CacheObject cacheObject = get(object);
         return cacheObject.isCustom(fieldName);
     }
 
-    public boolean isCollection(ADocumentObject aDocumentObject, String fieldName) {
-        CacheObject cacheObject = get(aDocumentObject);
+    public boolean isCollection(Object object, String fieldName) {
+        CacheObject cacheObject = get(object);
         return cacheObject.isCollection(fieldName);
     }
 
-    public boolean isDbReferenced(ADocumentObject aDocumentObject, String fieldName) {
-        CacheObject cacheObject = get(aDocumentObject);
+    public boolean isDbReferenced(Object object, String fieldName) {
+        CacheObject cacheObject = get(object);
         return cacheObject.isDbReferenced(fieldName);
     }
 
-    public boolean isSomeDBReferenced(ADocumentObject aDocumentObject) {
-        CacheObject cacheObject = get(aDocumentObject);
+    public boolean isSomeDBReferenced(Object object) {
+        CacheObject cacheObject = get(object);
         return cacheObject.isSomeDBReferenced();
     }
 
-    private CacheObject get(ADocumentObject aDocumentObject) {
-        CacheObject cacheObject = cache.get(unique(aDocumentObject));
+    private CacheObject get(Object object) {
+        CacheObject cacheObject = cache.get(unique(object));
         if (cacheObject == null) {
-            cacheObject = newCacheObject(aDocumentObject);
+            cacheObject = newCacheObject(object);
         }
 
         return cacheObject;
     }
 
-    private String unique(ADocumentObject aDocumentObject) {
-        return aDocumentObject.getClass().getName();
+    private String unique(Object object) {
+        return object.getClass().getName();
     }
 
-    protected CacheObject newCacheObject(ADocumentObject aDocumentObject) {
+    protected CacheObject newCacheObject(Object object) {
         CacheObject cacheObject = new CacheObject();
-        Field[] fields = aDocumentObject.getClass().getDeclaredFields();
+        Field[] fields = object.getClass().getDeclaredFields();
         for (Field field : fields) {
-            cacheObject.newFieldCacheObject(aDocumentObject, field);
+            cacheObject.newFieldCacheObject(object, field);
         }
-        cache.put(unique(aDocumentObject), cacheObject);
+        cache.put(unique(object), cacheObject);
 
         return cacheObject;
     }

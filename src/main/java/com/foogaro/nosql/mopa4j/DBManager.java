@@ -6,6 +6,7 @@ import com.mongodb.Mongo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 
@@ -15,6 +16,7 @@ import javax.annotation.PostConstruct;
  * @version 1.0
  * @since 1.0
  */
+//@Repository
 public class DBManager {
 
     private static final Logger log = LoggerFactory.getLogger(DBManager.class);
@@ -22,7 +24,10 @@ public class DBManager {
     @Autowired
     private Mongo mongo;
     private DB db;
+
     private String dbName;
+    private String hostname;
+    private int port;
 
     public DBManager() {
     }
@@ -44,7 +49,7 @@ public class DBManager {
 
     public DBCollection getDBCollection(String collectionName) {
         if (db == null) {
-            throw new IllegalStateException("Check your configuration about Mongo DB declaration");
+            throw new IllegalStateException("Check your configuration concerning Mongo DB declaration");
         }
 
         return db.getCollection(collectionName);
@@ -64,5 +69,21 @@ public class DBManager {
 
     public void setDbName(String dbName) {
         this.dbName = dbName;
+    }
+
+    public String getHostname() {
+        return hostname;
+    }
+
+    public void setHostname(String hostname) {
+        this.hostname = hostname;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
     }
 }

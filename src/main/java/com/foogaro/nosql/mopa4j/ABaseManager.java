@@ -18,21 +18,21 @@ import java.lang.reflect.Type;
  * @version 1.0
  * @since 1.0
  */
-public class ABaseManager {
+public abstract class ABaseManager {
 
     protected static final Logger log = LoggerFactory.getLogger(ABaseManager.class);
 
     @Autowired
     private DBManager dbManager;
 
-    @Autowired
-    protected MappingHelper mappingHelper;
+//    @Autowired
+//    protected MappingHelper mappingHelper;
 
     public DBManager getDbManager() {
         return dbManager;
     }
 
-    public DBCollection getDbCollection(Class type) {
+    public DBCollection getDBCollection(Class type) {
         return dbManager.getDBCollection(type.getName());
     }
 

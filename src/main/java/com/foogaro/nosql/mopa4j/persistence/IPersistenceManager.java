@@ -1,6 +1,6 @@
 package com.foogaro.nosql.mopa4j.persistence;
 
-import com.foogaro.nosql.mopa4j.ADocumentObject;
+import com.mongodb.DBObject;
 
 
 /**
@@ -10,11 +10,11 @@ import com.foogaro.nosql.mopa4j.ADocumentObject;
  * @version 1.0
  * @since 1.0
  */
-public interface IPersistenceManager<T extends ADocumentObject> {
+public interface IPersistenceManager {
 
-    public T create(T aDocumentObject);
-    public T read(T aDocumentObject);
-    public T update(T aDocumentObject);
-    public void delete(T aDocumentObject);
+    public DBObject create(DBObject dbObject, Class classType);
+    public DBObject read(DBObject dbObject, Class classType);
+    public DBObject update(DBObject dbObject, Class classType);
+    public void delete(DBObject dbObject, Class classType);
     
 }

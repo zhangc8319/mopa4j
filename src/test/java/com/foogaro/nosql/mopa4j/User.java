@@ -10,12 +10,11 @@ import java.util.Date;
  * @version 1.0
  * @since 1.0
  */
-public class User extends ADocumentObject {
+public class User {
 
     private ObjectId _id;
     private String name;
     private Date birthdate;
-    private City city;
     @DBReferenced
     private Nation nation;
 
@@ -43,14 +42,6 @@ public class User extends ADocumentObject {
         this.birthdate = birthdate;
     }
 
-    public City getCity() {
-        return city;
-    }
-
-    public void setCity(City city) {
-        this.city = city;
-    }
-
     public Nation getNation() {
         return nation;
     }
@@ -65,7 +56,6 @@ public class User extends ADocumentObject {
                 "_id=" + _id +
                 ", name='" + name + '\'' +
                 ", birthdate=" + birthdate +
-                ", city=" + city +
                 ", nation=" + nation +
                 '}';
     }
