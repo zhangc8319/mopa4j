@@ -1,4 +1,4 @@
-package com.foogaro.nosql.mopa;
+package com.foogaro.nosql.mopa4j;
 
 import org.bson.types.ObjectId;
 
