@@ -6,12 +6,12 @@
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
 	<context:annotation-config />
-	<context:component-scan base-package="com.foogaro.nosql.mopa" />
+	<context:component-scan base-package="com.foogaro.nosql.mopa4j" />
 
 
     <bean id="mongo" class="com.mongodb.Mongo" />
 
-    <bean id="dbManager" class="com.foogaro.nosql.mopa.DBManager">
+    <bean id="dbManager" class="com.foogaro.nosql.mopa4j.DBManager">
         <property name="dbName" value="test"/>
         <property name="mongo" ref="mongo"/>
     </bean>
