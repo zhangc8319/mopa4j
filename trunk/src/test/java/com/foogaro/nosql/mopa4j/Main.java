@@ -2,7 +2,7 @@ package com.foogaro.nosql.mopa4j;
 
 import com.foogaro.nosql.mopa4j.persistence.UserPersistenceManager;
 import com.foogaro.nosql.mopa.query.QueryObject;
-import com.foogaro.nosql.mopa.query.UserQueryManager;
+import com.foogaro.nosql.mopa4j.query.UserQueryManager;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
