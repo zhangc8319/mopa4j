@@ -25,15 +25,15 @@ public abstract class ABaseManager<T extends ADocumentObject> {
     private DBManager dbManager;
     protected DBCollection dbCollection;
     protected Class<T> classType;
-    protected Mapper mapper;
+    protected MappingHelper mappingHelper;
 
     @PostConstruct
     private void init() {
         log.debug("init");
         initClassType();
         log.debug("Generic Class type configured: " + classType.getName());
-        mapper = new Mapper();
-        log.debug("Mapper configured: " + mapper);
+        mappingHelper = new MappingHelper();
+        log.debug("Mapper configured: " + mappingHelper);
         dbCollection = dbManager.getDBCollection(classType.getName());
         log.debug("DBCollection retrieved: " + dbCollection);
     }
@@ -75,8 +75,8 @@ public abstract class ABaseManager<T extends ADocumentObject> {
         return dbCollection;
     }
 
-    public Mapper getMapper() {
-        return mapper;
+    public MappingHelper getMappingHelper() {
+        return mappingHelper;
     }
 
     public CommandResult getLastError() {

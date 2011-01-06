@@ -25,9 +25,9 @@ public abstract class PersistenceManager<T extends ADocumentObject> extends ABas
 
     public T create(T aDocumentObject) {
         log.debug("Creating document " + aDocumentObject);
-        DBObject dbObject = mapper.toDBObject(aDocumentObject);
+        DBObject dbObject = mappingHelper.toDBObject(aDocumentObject);
         dbCollection.insert(dbObject);
-        mapper.toADocumentObject(dbObject, aDocumentObject);
+        mappingHelper.toADocumentObject(dbObject, aDocumentObject);
         return aDocumentObject;
     }
 
@@ -40,7 +40,7 @@ public abstract class PersistenceManager<T extends ADocumentObject> extends ABas
         Object result = null;
         while (dbCursor.hasNext()) {
             result = dbCursor.next();
-            result = mapper.toADocumentObject((DBObject)result, classType);
+            result = mappingHelper.toADocumentObject((DBObject)result, classType);
             return (T)result;
         }
 
