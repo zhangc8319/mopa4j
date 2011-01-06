@@ -1,9 +1,13 @@
 package com.foogaro.nosql.mopa4j;
 
+import com.foogaro.nosql.mopa4j.annotation.DBReferenced;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +21,7 @@ public class CacheObject {
     private static final Logger log = LoggerFactory.getLogger(CacheObject.class);
 
     private Map<String, FieldCacheObject> cache = new HashMap<String, FieldCacheObject>();
+    private boolean someDBReferenced = false;
 
     public String[] getFields() {
         return (String[])cache.keySet().toArray(new String[cache.size()]);
@@ -69,6 +74,9 @@ public class CacheObject {
         return cache.get(fieldName).isCollection();
     }
 
+    public boolean isDbReferenced(String fieldName) {
+        return cache.get(fieldName).isDbReferenced();
+    }
 
     protected FieldCacheObject newFieldCacheObject(ADocumentObject aDocumentObject, Field field) {
         FieldCacheObject fieldCacheObject = new FieldCacheObject();
@@ -77,8 +85,10 @@ public class CacheObject {
         fieldCacheObject.setClassName(((Class)fieldCacheObject.getFieldType()).getName());
         fieldCacheObject.setGetter(getGetterMethod(aDocumentObject, fieldCacheObject));
         fieldCacheObject.setSetter(getSetterMethod(aDocumentObject, fieldCacheObject));
+        fieldCacheObject.setDbReferenced(field.isAnnotationPresent(DBReferenced.class));
 
         cache.put(fieldCacheObject.getName(), fieldCacheObject);
+        this.someDBReferenced = someDBReferenced || fieldCacheObject.isDbReferenced();
 
         return fieldCacheObject;
     }
@@ -129,6 +139,10 @@ public class CacheObject {
         } else {
             return "set" + fieldCacheObject.getName().substring(0,1).toUpperCase() + fieldCacheObject.getName().substring(1);
         }
+    }
+
+    public boolean isSomeDBReferenced() {
+        return someDBReferenced;
     }
 
 }

@@ -22,6 +22,7 @@ public class FieldCacheObject {
     private Type collectionArgumentType;
     private boolean custom = false;
     private boolean collection = false;
+    private boolean dbReferenced = false;
 
     public String getName() {
         return name;
@@ -91,5 +92,13 @@ public class FieldCacheObject {
 
     public boolean isCollection() {
         return collection;
+    }
+
+    public boolean isDbReferenced() {
+        return dbReferenced;
+    }
+
+    public void setDbReferenced(boolean dbReferenced) {
+        this.dbReferenced = dbReferenced;
     }
 }

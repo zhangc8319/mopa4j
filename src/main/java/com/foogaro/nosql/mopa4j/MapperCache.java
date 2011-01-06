@@ -65,6 +65,16 @@ public class MapperCache implements IMapperCache {
         return cacheObject.isCollection(fieldName);
     }
 
+    public boolean isDbReferenced(ADocumentObject aDocumentObject, String fieldName) {
+        CacheObject cacheObject = get(aDocumentObject);
+        return cacheObject.isDbReferenced(fieldName);
+    }
+
+    public boolean isSomeDBReferenced(ADocumentObject aDocumentObject) {
+        CacheObject cacheObject = get(aDocumentObject);
+        return cacheObject.isSomeDBReferenced();
+    }
+
     private CacheObject get(ADocumentObject aDocumentObject) {
         CacheObject cacheObject = cache.get(unique(aDocumentObject));
         if (cacheObject == null) {

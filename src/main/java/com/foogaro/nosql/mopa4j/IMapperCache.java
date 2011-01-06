@@ -20,5 +20,7 @@ public interface IMapperCache {
     public Type getCollectionArgumentType(ADocumentObject aDocumentObject, String fieldName);
     public boolean isCustom(ADocumentObject aDocumentObject, String fieldName);
     public boolean isCollection(ADocumentObject aDocumentObject, String fieldName);
+    public boolean isSomeDBReferenced(ADocumentObject aDocumentObject);
+    public boolean isDbReferenced(ADocumentObject aDocumentObject, String fieldName);
 
 }
