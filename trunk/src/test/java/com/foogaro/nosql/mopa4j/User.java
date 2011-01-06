@@ -1,5 +1,6 @@
 package com.foogaro.nosql.mopa4j;
 
+import com.foogaro.nosql.mopa4j.annotation.DBReferenced;
 import org.bson.types.ObjectId;
 
 import java.util.Date;
@@ -15,6 +16,8 @@ public class User extends ADocumentObject {
     private String name;
     private Date birthdate;
     private City city;
+    @DBReferenced
+    private Nation nation;
 
     public User() {
     }
@@ -51,6 +54,14 @@ public class User extends ADocumentObject {
         this.city = city;
     }
 
+    public Nation getNation() {
+        return nation;
+    }
+
+    public void setNation(Nation nation) {
+        this.nation = nation;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -58,6 +69,7 @@ public class User extends ADocumentObject {
                 ", name='" + name + '\'' +
                 ", birthdate=" + birthdate +
                 ", city=" + city +
+                ", nation=" + nation +
                 '}';
     }
 }

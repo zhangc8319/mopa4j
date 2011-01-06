@@ -3,6 +3,7 @@ package com.foogaro.nosql.mopa4j;
 import com.foogaro.nosql.mopa4j.persistence.UserPersistenceManager;
 import com.foogaro.nosql.mopa4j.query.QueryObject;
 import com.foogaro.nosql.mopa4j.query.UserQueryManager;
+import org.bson.types.ObjectId;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -46,16 +47,28 @@ public class Main {
         user.setCity(city);
         log.info("user: " + user);
 
-        userPersistenceManager.create(user);
+        Nation nation = new Nation();
+//        nation.set_id(new ObjectId("4d25bd9590590b19111766a8"));
+        nation.setCode("UK");
+        nation.setName("United Kingdom");
+        log.info("nation: " + nation);
+
+        user.setNation(nation);
+        log.info("user: " + user);
+
+//        userPersistenceManager.create(user);
         log.info("user: " + user);
 
         QueryObject queryObject = QueryObject.newInstance();
         queryObject.like("name", "L");
 
         User u = new User();
-        City c = new City();
-        c.setName("ROME");
-        u.setCity(c);
+//        City c = new City();
+//        c.setName("ROME");
+//        u.setCity(c);
+        nation = new Nation();
+        nation.setCode("IT");
+        u.setNation(nation);
         queryObject.as(u);
         log.info("queryObject: " + queryObject);
 
