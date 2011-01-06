@@ -1,6 +1,7 @@
 package com.foogaro.nosql.mopa4j;
 
 import com.foogaro.nosql.mopa4j.persistence.PersistenceManager;
+import com.foogaro.nosql.mopa4j.query.QueryObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -52,21 +53,21 @@ public class Main {
         moPA4J.create(user);
         log.info("user: " + user);
 
-//        QueryObject queryObject = QueryObject.newInstance();
-//        queryObject.like("name", "L");
+        QueryObject queryObject = QueryObject.newInstance();
+        queryObject.like("name", "L");
 //
 //        User u = new User();
 //        City c = new City();
 //        c.setName("ROME");
 //        u.setCity(c);
 //        queryObject.as(u);
-//        log.info("queryObject: " + queryObject);
-//
-//        List<User> users = userQueryManager.find(queryObject);
-//        log.info("users.size(): " + users.size());
-//        for (User _user : users) {
-//            log.info("_user: " + _user);
-//        }
+        log.info("queryObject: " + queryObject);
+
+        List users = moPA4J.find(queryObject, User.class);
+        log.info("users.size(): " + users.size());
+        for (Object _user : users) {
+            log.info("_user: " + _user);
+        }
 
     }
 }
