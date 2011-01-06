@@ -1,7 +1,6 @@
 package com.foogaro.nosql.mopa4j.query;
 
-import 
-        com.foogaro.nosql.mopa4j.ADocumentObject;
+import com.foogaro.nosql.mopa4j.ADocumentObject;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.QueryOperators;
