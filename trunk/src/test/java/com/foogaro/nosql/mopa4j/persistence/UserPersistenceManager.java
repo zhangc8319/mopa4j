@@ -1,6 +1,6 @@
-package com.foogaro.nosql.mopa.persistence;
+package com.foogaro.nosql.mopa4j.persistence;
 
-import com.foogaro.nosql.mopa.User;
+import com.foogaro.nosql.mopa4j.User;
 import org.springframework.stereotype.Repository;
 
 /**
