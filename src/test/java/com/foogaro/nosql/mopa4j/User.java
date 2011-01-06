@@ -19,9 +19,6 @@ public class User extends ADocumentObject {
     @DBReferenced
     private Nation nation;
 
-    public User() {
-    }
-
     public ObjectId get_id() {
         return _id;
     }

@@ -10,9 +10,6 @@ public class City extends ADocumentObject {
     private String code;
     private String name;
 
-    public City() {
-    }
-
     public String getCode() {
         return code;
     }
