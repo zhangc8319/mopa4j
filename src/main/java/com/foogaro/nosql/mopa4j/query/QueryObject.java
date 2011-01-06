@@ -1,12 +1,12 @@
 package com.foogaro.nosql.mopa4j.query;
 
-import com.foogaro.nosql.mopa4j.ADocumentObject;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.QueryOperators;
 
 import java.util.LinkedList;
 import java.util.List;
+
 
 /**
 * When you need to query on your MongoDB, belong to your QueryManager implementation, create your query conditions with it.
