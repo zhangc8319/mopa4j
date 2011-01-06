@@ -1,7 +1,7 @@
 package com.foogaro.nosql.mopa4j.persistence;
 
-import com.foogaro.nosql.mopa.ABaseManager;
-import com.foogaro.nosql.mopa.ADocumentObject;
+import com.foogaro.nosql.mopa4j.ABaseManager;
+import com.foogaro.nosql.mopa4j.ADocumentObject;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;

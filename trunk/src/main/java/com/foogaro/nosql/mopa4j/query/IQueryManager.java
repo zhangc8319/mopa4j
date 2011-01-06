@@ -1,6 +1,6 @@
 package com.foogaro.nosql.mopa4j.query;
 
-import com.foogaro.nosql.mopa.ADocumentObject;
+import com.foogaro.nosql.mopa4j.ADocumentObject;
 
 import java.util.List;
 

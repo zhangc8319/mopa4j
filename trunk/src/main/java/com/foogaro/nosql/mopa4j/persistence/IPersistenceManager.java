@@ -1,6 +1,6 @@
 package com.foogaro.nosql.mopa4j.persistence;
 
-import com.foogaro.nosql.mopa.ADocumentObject;
+import com.foogaro.nosql.mopa4j.ADocumentObject;
 
 
 /**
