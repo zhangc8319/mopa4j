@@ -4,7 +4,7 @@
 
     <groupId>com.foogaro.nosql</groupId>
     <artifactId>mopa4j</artifactId>
-    <version>1.0</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
 
     <name>mopa4j</name>

@@ -49,7 +49,7 @@ public abstract class QueryManager<T extends ADocumentObject> extends ABaseManag
         DBObject dbCursorElement = null;
         while (dbCursor.hasNext()) {
             dbCursorElement = dbCursor.next();
-            results.add((T)mapper.toADocumentObject(dbCursorElement, classType));
+            results.add((T) mappingHelper.toADocumentObject(dbCursorElement, classType));
         }
         return results;
     }
@@ -69,7 +69,7 @@ public abstract class QueryManager<T extends ADocumentObject> extends ABaseManag
         }
         DBCursor dbCursor = dbCollection.find(query);
         while (dbCursor.hasNext()) {
-            return (T)mapper.toADocumentObject(dbCursor.next(), classType);
+            return (T) mappingHelper.toADocumentObject(dbCursor.next(), classType);
         }
         return null;
     }
