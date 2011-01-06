@@ -1,4 +1,4 @@
-package com.foogaro.nosql.mopa.exception;
+package com.foogaro.nosql.mopa4j.exception;
 
 /**
  * @author Luigi Fugaro
