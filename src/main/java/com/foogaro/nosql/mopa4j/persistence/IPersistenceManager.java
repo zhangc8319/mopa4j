@@ -1,11 +1,11 @@
-package com.foogaro.nosql.mopa.persistence;
+package com.foogaro.nosql.mopa4j.persistence;
 
 import com.foogaro.nosql.mopa.ADocumentObject;
 
 
 /**
  * Interface for CRUD operations.
- * @see com.foogaro.nosql.mopa.persistence.PersistenceManager
+ * @see PersistenceManager
  * @author Luigi Fugaro
  * @version 1.0
  * @since 1.0
