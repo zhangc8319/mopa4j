@@ -3,6 +3,7 @@ package com.foogaro.nosql.mopa4j;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import org.bson.BSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -20,7 +21,8 @@ public abstract class ADocumentObject implements DBObject {
 
     protected Map<String, Object> wrapper = new HashMap<String, Object>();
     protected boolean partialObject = false;
-    protected Mapper mapper = new Mapper();
+    @Autowired
+    protected MappingHelper mappingHelper;
 
     public ADocumentObject() {
         initWrapper();
@@ -45,10 +47,10 @@ public abstract class ADocumentObject implements DBObject {
         if (v != null) {
             if (v instanceof BasicDBObject) {
                 if (((BasicDBObject)v).size() > 0) {
-                    mapper.setValue(this, key, v);
+                    mappingHelper.setValue(this, key, v);
                 }
             } else {
-                mapper.setValue(this, key, v);
+                mappingHelper.setValue(this, key, v);
             }
             wrapper.put(key, v);
         }
@@ -65,16 +67,16 @@ public abstract class ADocumentObject implements DBObject {
 
     public Object get(String key) {
         if (key.equals("_id") || !key.startsWith("_"))
-            return mapper.getValue(this, key);
+            return mappingHelper.getValue(this, key);
         return null;
     }
 
     public Map toMap() {
-        return mapper.toMap(this);
+        return mappingHelper.toMap(this);
     }
 
     public Map toMQL() {
-        return mapper.toMQL(this);
+        return mappingHelper.toMQL(this);
     }
 
     public Object removeField(String key) {

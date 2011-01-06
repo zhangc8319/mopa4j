@@ -63,12 +63,9 @@ public class Main {
         queryObject.like("name", "L");
 
         User u = new User();
-//        City c = new City();
-//        c.setName("ROME");
-//        u.setCity(c);
-        nation = new Nation();
-        nation.setCode("IT");
-        u.setNation(nation);
+        City c = new City();
+        c.setName("ROME");
+        u.setCity(c);
         queryObject.as(u);
         log.info("queryObject: " + queryObject);
 
