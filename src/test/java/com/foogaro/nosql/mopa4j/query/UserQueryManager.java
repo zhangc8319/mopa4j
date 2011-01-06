@@ -1,6 +1,6 @@
-package com.foogaro.nosql.mopa.query;
+package com.foogaro.nosql.mopa4j.query;
 
-import com.foogaro.nosql.mopa.User;
+import com.foogaro.nosql.mopa4j.User;
 import org.springframework.stereotype.Repository;
 
 /**
