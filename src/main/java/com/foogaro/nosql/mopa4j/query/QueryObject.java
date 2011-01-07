@@ -16,20 +16,28 @@ import java.util.List;
 */
 public class QueryObject implements IQueryObject {
 
-    public final static String OR = "$or";
-    public final static String NOR = "$nor";
-    public final static String EQ = "$eq";
-    public final static String NE = "$ne";
-    public final static String AS = "$as";
-    public final static String STARTS = "$starts";
-    public final static String LIKE = "$like";
-    public final static String ENDS = "$ends";
-    public final static String IN = "$in";
-    public final static String NIN = "$nin";
-    public final static String GT = "$gt";
-    public final static String LT = "$lt";
-    public final static String GTE = "$gte";
-    public final static String LTE = "$lte";
+    class Operators {
+        public final static String OR = "$or";
+        public final static String NOR = "$nor";
+        public final static String EQ = "$eq";
+        public final static String NE = QueryOperators.NE;
+        public final static String AS = "$as";
+        public final static String STARTS = "$starts";
+        public final static String LIKE = "$like";
+        public final static String ENDS = "$ends";
+        public final static String IN = QueryOperators.IN;
+        public final static String NIN = QueryOperators.NIN;
+        public final static String GT = QueryOperators.GT;
+        public final static String LT = QueryOperators.LT;
+        public final static String GTE = QueryOperators.GTE;
+        public final static String LTE = QueryOperators.LTE;
+        public static final String MOD = QueryOperators.MOD;
+        public static final String ALL = QueryOperators.ALL;
+        public static final String SIZE = QueryOperators.SIZE;
+        public static final String EXISTS = QueryOperators.EXISTS;
+        public static final String WHERE = QueryOperators.WHERE;
+        public static final String NEAR = QueryOperators.NEAR;
+    }
 
     private LinkedList<String> queryOperators = new LinkedList<String>();
     private LinkedList<Object> queryParameters = new LinkedList<Object>();
@@ -45,7 +53,7 @@ public class QueryObject implements IQueryObject {
         if (isValidKey(key)) {
             DBObject dbObject = new BasicDBObject();
             dbObject.put(key, values);
-            queryOperators.add(OR);
+            queryOperators.add(Operators.OR);
             queryParameters.add(dbObject);
         }
         return this;
@@ -55,7 +63,7 @@ public class QueryObject implements IQueryObject {
         if (isValidKey(key)) {
             DBObject dbObject = new BasicDBObject();
             dbObject.put(key, values);
-            queryOperators.add(NOR);
+            queryOperators.add(Operators.NOR);
             queryParameters.add(dbObject);
         }
         return this;
@@ -65,7 +73,7 @@ public class QueryObject implements IQueryObject {
         if (isValidKey(key)) {
             DBObject dbObject = new BasicDBObject();
             dbObject.put(key, value);
-            queryOperators.add(EQ);
+            queryOperators.add(Operators.EQ);
             queryParameters.add(dbObject);
         }
         return this;
@@ -75,7 +83,7 @@ public class QueryObject implements IQueryObject {
         if (isValidKey(key)) {
             DBObject dbObject = new BasicDBObject();
             dbObject.put(key, value);
-            queryOperators.add(NE);
+            queryOperators.add(Operators.NE);
             queryParameters.add(dbObject);
         }
         return this;
@@ -83,7 +91,7 @@ public class QueryObject implements IQueryObject {
 
     public QueryObject as(Object object) {
         if (object != null) {
-            queryOperators.add(AS);
+            queryOperators.add(Operators.AS);
             queryParameters.add(object);
 //            dbObject.putAll(object.toMQL());
         }
@@ -94,7 +102,7 @@ public class QueryObject implements IQueryObject {
         if (isValidKey(key)) {
             DBObject dbObject = new BasicDBObject();
             dbObject.put(key, java.util.regex.Pattern.compile("^" + value));
-            queryOperators.add(STARTS);
+            queryOperators.add(Operators.STARTS);
             queryParameters.add(dbObject);
         }
         return this;
@@ -104,7 +112,7 @@ public class QueryObject implements IQueryObject {
         if (isValidKey(key)) {
             DBObject dbObject = new BasicDBObject();
             dbObject.put(key, java.util.regex.Pattern.compile(value));
-            queryOperators.add(LIKE);
+            queryOperators.add(Operators.LIKE);
             queryParameters.add(dbObject);
         }
         return this;
@@ -114,7 +122,7 @@ public class QueryObject implements IQueryObject {
         if (isValidKey(key)) {
             DBObject dbObject = new BasicDBObject();
             dbObject.put(key, java.util.regex.Pattern.compile(value + "$"));
-            queryOperators.add(ENDS);
+            queryOperators.add(Operators.ENDS);
             queryParameters.add(dbObject);
         }
         return this;
@@ -124,7 +132,7 @@ public class QueryObject implements IQueryObject {
         if (isValidKey(key)) {
             DBObject dbObject = new BasicDBObject();
             dbObject.put(key, values);
-            queryOperators.add(IN);
+            queryOperators.add(Operators.IN);
             queryParameters.add(dbObject);
         }
         return this;
@@ -134,7 +142,7 @@ public class QueryObject implements IQueryObject {
         if (isValidKey(key)) {
             DBObject dbObject = new BasicDBObject();
             dbObject.put(key, values);
-            queryOperators.add(NIN);
+            queryOperators.add(Operators.NIN);
             queryParameters.add(dbObject);
         }
         return this;
@@ -160,7 +168,7 @@ public class QueryObject implements IQueryObject {
         if (isValidKey(key)) {
             DBObject dbObject = new BasicDBObject();
             dbObject.put(key, value);
-            queryOperators.add(GT);
+            queryOperators.add(Operators.GT);
             queryParameters.add(dbObject);
         }
         return this;
@@ -170,7 +178,7 @@ public class QueryObject implements IQueryObject {
         if (isValidKey(key)) {
             DBObject dbObject = new BasicDBObject();
             dbObject.put(key, value);
-            queryOperators.add(LT);
+            queryOperators.add(Operators.LT);
             queryParameters.add(dbObject);
         }
         return this;
@@ -180,7 +188,7 @@ public class QueryObject implements IQueryObject {
         if (isValidKey(key)) {
             DBObject dbObject = new BasicDBObject();
             dbObject.put(key, value);
-            queryOperators.add(GTE);
+            queryOperators.add(Operators.GTE);
             queryParameters.add(dbObject);
         }
         return this;
@@ -190,12 +198,36 @@ public class QueryObject implements IQueryObject {
         if (isValidKey(key)) {
             DBObject dbObject = new BasicDBObject();
             dbObject.put(key, value);
-            queryOperators.add(LTE);
+            queryOperators.add(Operators.LTE);
             queryParameters.add(dbObject);
         }
         return this;
     }
 
+    public QueryObject mod(Object object) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public QueryObject all(Object object) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public QueryObject size(Object object) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public QueryObject exists(Object object) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public QueryObject where(Object object) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public QueryObject near(Object object) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+    
     private boolean isValidKey(String key) {
         return (key != null && key.trim().length() > 0);
     }
