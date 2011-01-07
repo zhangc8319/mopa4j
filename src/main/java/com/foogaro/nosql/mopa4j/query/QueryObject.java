@@ -16,7 +16,7 @@ import java.util.List;
 */
 public class QueryObject implements IQueryObject {
 
-    class Operators {
+    public class Operators {
         public final static String OR = "$or";
         public final static String NOR = "$nor";
         public final static String EQ = "$eq";
