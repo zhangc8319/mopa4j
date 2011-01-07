@@ -13,10 +13,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
-* @author Luigi Fugaro
-* @version 1.0
-* @since 1.0
-*/
+ * @author Luigi Fugaro
+ * @version 1.0.1
+ * @since 1.0
+ */
 @Repository
 public class QueryManager extends ABaseManager implements IQueryManager {
 

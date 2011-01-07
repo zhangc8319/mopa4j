@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * @author Luigi Fugaro
  * @version 1.0.1
- * @since 1.0
+ * @since 1.0.1
  */
 public class MapperCache implements IMapperCache {
 

@@ -17,7 +17,7 @@ import java.util.*;
  * This class gives you the capability to convert any POJO to a DBObject and vice-versa.
  * @author Luigi Fugaro
  * @version 1.0.1
- * @since 1.0
+ * @since 1.0.1
  */
 @Component
 public class MappingHelper {

@@ -8,9 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 /**
- * User: luigi
- * Date: Jan 6, 2011
- * Time: 12:13:48 PM
+ * @author Luigi Fugaro
+ * @version 1.0.1
+ * @since 1.0.1
  */
 @Repository
 public class DBReferenceManager extends ABaseManager {

@@ -13,9 +13,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * User: luigi
- * Date: Jan 6, 2011
- * Time: 5:54:36 PM
+ * @author Luigi Fugaro
+ * @version 1.0.1
+ * @since 1.0.1
  */
 @Service
 public class MoPA4J {

@@ -11,7 +11,7 @@ import java.util.List;
 /**
 * When you need to query on your MongoDB, belong to your QueryManager implementation, create your query conditions with it.
 * @author Luigi Fugaro
-* @version 1.0
+* @version 1.0.1
 * @since 1.0
 */
 public class QueryObject implements IQueryObject {
