@@ -93,7 +93,6 @@ public class QueryObject implements IQueryObject {
         if (object != null) {
             queryOperators.add(Operators.AS);
             queryParameters.add(object);
-//            dbObject.putAll(object.toMQL());
         }
         return this;
     }
