@@ -3,7 +3,7 @@ package com.foogaro.nosql.mopa4j.annotation;
 /**
  * Annotation used to reference an embedded document. If the reference is not presence the embedded document will e first persisted and the referenced.
  * @author Luigi Fugaro
- * @version 1.0
+ * @version 1.0.1
  * @since 1.0.1
  */
 @java.lang.annotation.Documented

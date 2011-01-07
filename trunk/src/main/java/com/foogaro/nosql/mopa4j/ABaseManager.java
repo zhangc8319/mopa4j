@@ -15,7 +15,7 @@ import java.lang.reflect.Type;
 /**
  * This class is used as base class for thoseones which need direct access to the MongoDB. 
  * @author Luigi Fugaro
- * @version 1.0
+ * @version 1.0.1
  * @since 1.0
  */
 public abstract class ABaseManager {
@@ -24,9 +24,6 @@ public abstract class ABaseManager {
 
     @Autowired
     private DBManager dbManager;
-
-//    @Autowired
-//    protected MappingHelper mappingHelper;
 
     public DBManager getDbManager() {
         return dbManager;

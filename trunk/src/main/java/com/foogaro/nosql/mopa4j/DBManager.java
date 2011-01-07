@@ -13,10 +13,9 @@ import javax.annotation.PostConstruct;
 /**
  * This class is used as singleton to wrap the access to the MongoDB. 
  * @author Luigi Fugaro
- * @version 1.0
+ * @version 1.0.1
  * @since 1.0
  */
-//@Repository
 public class DBManager {
 
     private static final Logger log = LoggerFactory.getLogger(DBManager.class);

@@ -7,7 +7,7 @@ import java.lang.reflect.Type;
 /**
  * @author Luigi Fugaro
  * @version 1.0.1
- * @since 1.0
+ * @since 1.0.1
  */
 public class FieldCacheObject {
 
