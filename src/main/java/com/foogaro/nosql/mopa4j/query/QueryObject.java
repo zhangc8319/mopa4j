@@ -40,7 +40,7 @@ public class QueryObject implements IQueryObject {
     }
 
     private LinkedList<String> queryOperators = new LinkedList<String>();
-    private LinkedList<Object> queryParameters = new LinkedList<Object>();
+    private LinkedList<DBObject> queryParameters = new LinkedList<DBObject>();
 
     protected QueryObject() {
     }
@@ -89,10 +89,12 @@ public class QueryObject implements IQueryObject {
         return this;
     }
 
-    public QueryObject as(Object object) {
-        if (object != null) {
+    public QueryObject as(Object value) {
+        if (value != null) {
+            DBObject dbObject = new BasicDBObject();
+            dbObject.put(Operators.AS, value);
             queryOperators.add(Operators.AS);
-            queryParameters.add(object);
+            queryParameters.add(dbObject);
         }
         return this;
     }
@@ -231,7 +233,7 @@ public class QueryObject implements IQueryObject {
         return (key != null && key.trim().length() > 0);
     }
 
-    public LinkedList<Object> getQueryParameters() {
+    public LinkedList<DBObject> getQueryParameters() {
         return queryParameters;
     }
 

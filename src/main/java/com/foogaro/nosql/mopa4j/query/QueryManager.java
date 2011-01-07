@@ -25,56 +25,19 @@ public class QueryManager extends ABaseManager implements IQueryManager {
 
     private static final Logger log = LoggerFactory.getLogger(QueryManager.class);
 
-//    public QueryManager() {
-//        super();
-//
-//        try {
-//            Type gs = getClass().getGenericSuperclass();
-//            ParameterizedType pt;
-//            if (gs instanceof ParameterizedType) {
-//                pt = (ParameterizedType) gs;
-//                Type[] ata = pt.getActualTypeArguments();
-//                if (ata != null && ata.length > 0) {
-//                    try {
-//                        this.classType = (Class<T>) ata[0];
-//                    } catch (Throwable t) {
-//                        log.error("Error while retrieving Generic Class type", t);
-//                    }
-//                }
-//
-//                if (ata != null && ata.length > 1) {
-//                    try {
-//                        this.classType = (Class<T>) ata[1];
-//                    } catch (Throwable t) {
-//                        log.error("Error while retrieving next Generic Class type", t);
-//                    }
-//                }
-//            }
-//        } catch (Exception e) {
-//            log.error("Error while configuring BaseManager", e);
-//            throw new PersistenceManagerException(e);
-//        }
-//
-//        log.debug("QueryManager created");
-//    }
-
-
-    public List find(Class classType) {
+    public List<DBObject> find(Class classType) {
         return find(null, classType);
     }
 
-    public List find(QueryObject queryObject, Class classType) {
+    public List<DBObject> find(LinkedList<DBObject> dbObjects, Class classType) {
         List results = new ArrayList();
         DBObject query = new BasicDBObject();
 
-        if (queryObject != null) {
-            LinkedList<DBObject> dbObjects = queryObject.getQueryParameters();
-            DBObject dbObject = null;
-            while (dbObjects.size() > 0) {
-                dbObject = dbObjects.poll();
-                if (dbObject != null) {
-                    query.putAll(dbObject.toMap());
-                }
+        DBObject dbObject = null;
+        while (dbObjects.size() > 0) {
+            dbObject = dbObjects.poll();
+            if (dbObject != null) {
+                query.putAll(dbObject.toMap());
             }
         }
         DBCursor dbCursor = getDBCollection(classType).find(query);
@@ -86,17 +49,14 @@ public class QueryManager extends ABaseManager implements IQueryManager {
         return results;
     }
 
-    public Object findOne(QueryObject queryObject, Class classType) {
+    public DBObject findOne(LinkedList<DBObject> dbObjects, Class classType) {
         List results = new ArrayList();
         DBObject query = new BasicDBObject();
-        if (queryObject != null) {
-            LinkedList<DBObject> dbObjects = queryObject.getQueryParameters();
-            DBObject dbObject = null;
-            while (dbObjects.size() > 0) {
-                dbObject = dbObjects.poll();
-                if (dbObject != null) {
-                    query.putAll(dbObject.toMap());
-                }
+        DBObject dbObject = null;
+        while (dbObjects.size() > 0) {
+            dbObject = dbObjects.poll();
+            if (dbObject != null) {
+                query.putAll(dbObject.toMap());
             }
         }
         DBCursor dbCursor = getDBCollection(classType).find(query);
