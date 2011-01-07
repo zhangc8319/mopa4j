@@ -1,5 +1,8 @@
 package com.foogaro.nosql.mopa4j.query;
 
+import com.mongodb.DBObject;
+
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -9,8 +12,8 @@ import java.util.List;
 */
 public interface IQueryManager {
 
-    public List find(Class classType);
-    public List find(QueryObject queryObject, Class classType);
-    public Object findOne(QueryObject queryObject, Class classType);
+    public List<DBObject> find(Class classType);
+    public List<DBObject> find(LinkedList<DBObject> dbObjects, Class classType);
+    public DBObject findOne(LinkedList<DBObject> dbObjects, Class classType);
 
 }
