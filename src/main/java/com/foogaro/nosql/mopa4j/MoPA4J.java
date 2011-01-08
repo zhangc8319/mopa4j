@@ -103,73 +103,67 @@ public class MoPA4J {
                 if (operator == null || operator.trim().length() == 0) {
                     //that's weird!!!
                 } else if (QueryObject.Operators.OR.equalsIgnoreCase(operator)) {
-                        DBObject operatorDbObject = new BasicDBObject();
-                        operatorDbObject.put(operator, value);
-                        dbObject.put(key, operatorDbObject);
-                        result.add(dbObject);
+                    DBObject operatorDbObject = new BasicDBObject();
+                    operatorDbObject.put(operator, value);
+                    dbObject.put(key, operatorDbObject);
+                    result.add(dbObject);
                 } else if (QueryObject.Operators.NOR.equalsIgnoreCase(operator)) {
-                        DBObject operatorDbObject = new BasicDBObject();
-                        operatorDbObject.put(operator, value);
-                        dbObject.put(key, operatorDbObject);
-                        result.add(dbObject);
+                    DBObject operatorDbObject = new BasicDBObject();
+                    operatorDbObject.put(operator, value);
+                    dbObject.put(key, operatorDbObject);
+                    result.add(dbObject);
                 } else if (QueryObject.Operators.EQ.equalsIgnoreCase(operator)) {
-                        DBObject operatorDbObject = new BasicDBObject();
-                        operatorDbObject.put(operator, value);
-                        dbObject.put(key, operatorDbObject);
-                        result.add(dbObject);
+                    DBObject operatorDbObject = new BasicDBObject();
+                    operatorDbObject.put(operator, value);
+                    dbObject.put(key, operatorDbObject);
+                    result.add(dbObject);
                 } else if (QueryObject.Operators.NE.equalsIgnoreCase(operator)) {
-                        DBObject operatorDbObject = new BasicDBObject();
-                        operatorDbObject.put(operator, value);
-                        dbObject.put(key, operatorDbObject);
-                        result.add(dbObject);
+                    DBObject operatorDbObject = new BasicDBObject();
+                    operatorDbObject.put(operator, value);
+                    dbObject.put(key, operatorDbObject);
+                    result.add(dbObject);
                 } else if (QueryObject.Operators.AS.equalsIgnoreCase(operator)) {
-                        dbObject.putAll(mappingHelper.toMQL(((DBObject)value).get(QueryObject.Operators.AS)));
-                        result.add(dbObject);
+                    dbObject.putAll(mappingHelper.toMQL(((DBObject)value).get(QueryObject.Operators.AS)));
+                    result.add(dbObject);
                 } else if (QueryObject.Operators.STARTS.equalsIgnoreCase(operator)) {
-                        DBObject operatorDbObject = new BasicDBObject();
-                        operatorDbObject.put(operator, value);
-                        dbObject.put(key, operatorDbObject);
-                        result.add(dbObject);
+                    dbObject.put(key, value);
+                    result.add(dbObject);
                 } else if (QueryObject.Operators.LIKE.equalsIgnoreCase(operator)) {
-                        DBObject operatorDbObject = new BasicDBObject();
-                        operatorDbObject.put(operator, value);
-                        dbObject.put(key, operatorDbObject);
-                        result.add(dbObject);
+                    dbObject.put(key, value);
+                    result.add(dbObject);
                 } else if (QueryObject.Operators.ENDS.equalsIgnoreCase(operator)) {
-                        DBObject operatorDbObject = new BasicDBObject();
-                        operatorDbObject.put(operator, value);
-                        dbObject.put(key, operatorDbObject);
-                        result.add(dbObject);
+                    dbObject.put(key, value);
+                    result.add(dbObject);
                 } else if (QueryObject.Operators.IN.equalsIgnoreCase(operator)) {
-                        DBObject operatorDbObject = new BasicDBObject();
-                        operatorDbObject.put(operator, value);
-                        dbObject.put(key, operatorDbObject);
-                        result.add(dbObject);
+                    DBObject operatorDbObject = new BasicDBObject();
+                    operatorDbObject.put(operator, value);
+                    dbObject.put(key, operatorDbObject);
+                    result.add(dbObject);
                 } else if (QueryObject.Operators.NIN.equalsIgnoreCase(operator)) {
-                        DBObject operatorDbObject = new BasicDBObject();
-                        operatorDbObject.put(operator, value);
-                        dbObject.put(key, operatorDbObject);
-                        result.add(dbObject);
+                    DBObject operatorDbObject = new BasicDBObject();
+                    operatorDbObject.put(operator, value);
+                    dbObject.put(key, operatorDbObject);
+                    result.add(dbObject);
                 } else if (QueryObject.Operators.GT.equalsIgnoreCase(operator)) {
-                        DBObject operatorDbObject = new BasicDBObject();
-                        operatorDbObject.put(operator, value);
-                        dbObject.put(key, operatorDbObject);
-                        result.add(dbObject);
+                    DBObject operatorDbObject = new BasicDBObject();
+                    operatorDbObject.put(operator, value);
+                    dbObject.put(key, operatorDbObject);
+                    result.add(dbObject);
                 } else if (QueryObject.Operators.LT.equalsIgnoreCase(operator)) {
-                        DBObject operatorDbObject = new BasicDBObject();
-                        operatorDbObject.put(operator, value);
-                        dbObject.put(key, operatorDbObject);
-                        result.add(dbObject);
+                    DBObject operatorDbObject = new BasicDBObject();
+                    operatorDbObject.put(operator, value);
+                    dbObject.put(key, operatorDbObject);
+                    result.add(dbObject);
                 } else if (QueryObject.Operators.GTE.equalsIgnoreCase(operator)) {
-                        DBObject operatorDbObject = new BasicDBObject();
-                        operatorDbObject.put(operator, value);
-                        dbObject.put(key, operatorDbObject);
-                        result.add(dbObject);
+                    DBObject operatorDbObject = new BasicDBObject();
+                    operatorDbObject.put(operator, value);
+                    dbObject.put(key, operatorDbObject);
+                    result.add(dbObject);
                 } else if (QueryObject.Operators.LTE.equalsIgnoreCase(operator)) {
-                        DBObject operatorDbObject = new BasicDBObject();
-                        operatorDbObject.put(operator, value);
-                        dbObject.put(key, operatorDbObject);
-                        result.add(dbObject);
+                    DBObject operatorDbObject = new BasicDBObject();
+                    operatorDbObject.put(operator, value);
+                    dbObject.put(key, operatorDbObject);
+                    result.add(dbObject);
                 } else {
                     throw new UnsupportedOperationException("Not yet implemented");
                 }
