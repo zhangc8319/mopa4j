@@ -29,29 +29,29 @@ public class Main {
     @Test
     public void doTest() {
 
-        User user = new User();
-        user.setBirthdate(new java.util.Date());
-        user.setName("Luigi Fugaro");
-        log.info("user: " + user);
-
-        Nation nation = new Nation();
-        nation.setCode("IT");
-        nation.setName("ITALY");
-        log.info("nation: " + nation);
-
-        City city = new City();
-        city.setCode("RM");
-        city.setName("ROME");
-        log.info("city: " + city);
-
-        nation.setCity(city);
-        log.info("nation: " + nation);
-
-        user.setNation(nation);
-        log.info("user: " + user);
-
-        moPA4J.create(user);
-        log.info("user: " + user);
+//        User user = new User();
+//        user.setBirthdate(new java.util.Date());
+//        user.setName("Gloria Luigi");
+//        log.info("user: " + user);
+//
+//        Nation nation = new Nation();
+//        nation.setCode("IT");
+//        nation.setName("ITALY");
+//        log.info("nation: " + nation);
+//
+//        City city = new City();
+//        city.setCode("AC");
+//        city.setName("ACILIA-CITY");
+//        log.info("city: " + city);
+//
+//        nation.setCity(city);
+//        log.info("nation: " + nation);
+//
+//        user.setNation(nation);
+//        log.info("user: " + user);
+//
+//        moPA4J.create(user);
+//        log.info("user: " + user);
 
         QueryObject queryObject = QueryObject.newInstance();
         queryObject.like("name", "L");
