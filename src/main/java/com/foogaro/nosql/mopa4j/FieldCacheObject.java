@@ -63,7 +63,7 @@ public class FieldCacheObject {
                 this.collectionArgumentType = types[0];
             }
         }
-        if (((Class)this.fieldType).getPackage().getName().indexOf("java.") == 0) {
+        if (((Class)this.fieldType).getPackage() == null || ((Class)this.fieldType).getPackage().getName().indexOf("java.") == 0) {
             this.custom = false;
         } else {
             this.custom = true;
