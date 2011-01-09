@@ -35,15 +35,17 @@ public class MoPA4J {
     }
 
     public Object read(Object object) {
-        return null;
+        DBObject dbObject = persistenceManager.read(toDBObject(object), object.getClass());
+        return toObject(dbObject, object);
     }
 
     public Object update(Object object) {
-        return null;
+        DBObject dbObject = persistenceManager.update(toDBObject(object), object.getClass());
+        return toObject(dbObject, object);
     }
 
     public void delete(Object object) {
-        return;
+        persistenceManager.delete(toDBObject(object), object.getClass());
     }
 
     public List find(Class classType) {
