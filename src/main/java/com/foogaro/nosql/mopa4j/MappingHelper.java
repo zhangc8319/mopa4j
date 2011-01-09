@@ -1,5 +1,6 @@
 package com.foogaro.nosql.mopa4j;
 
+import com.foogaro.nosql.mopa4j.exception.MappingException;
 import com.foogaro.nosql.mopa4j.persistence.DBReferenceManager;
 import com.mongodb.*;
 import org.bson.types.ObjectId;
@@ -29,7 +30,7 @@ public class MappingHelper {
     @Autowired
     private DBReferenceManager dbReferenceManager;
 
-    public Map<String, Object> toMQL(Object object) {
+    public Map<String, Object> toMQL(Object object) throws MappingException {
 
         Map<String, Object> map = new HashMap<String, Object>();
         map.putAll(toMap(object));
@@ -52,7 +53,7 @@ public class MappingHelper {
         return map;
     }
 
-    private Map<String, Object> toMQL(BasicDBObject basicDBObject, String parentKey) {
+    private Map<String, Object> toMQL(BasicDBObject basicDBObject, String parentKey) throws MappingException {
         Map<String, Object> result = new HashMap<String, Object>();
         Map<String, Object> map = new HashMap<String, Object>();
         map.putAll(basicDBObject.toMap());
@@ -78,15 +79,15 @@ public class MappingHelper {
         return result;
     }
 
-    public Object toObject(DBObject dbObject, Class clazz) {
+    public Object toObject(DBObject dbObject, Class clazz) throws MappingException {
         return toObject(dbObject, clazz, null);
     }
 
-    public Object toObject(DBObject dbObject, Object object) {
+    public Object toObject(DBObject dbObject, Object object) throws MappingException {
         return toObject(dbObject, null, object);
     }
 
-    private Object toObject(DBObject dbObject, Class clazz, Object instance) {
+    private Object toObject(DBObject dbObject, Class clazz, Object instance) throws MappingException {
         Map<String, Object> map = dbObject.toMap();
         Set<String> keys = map.keySet();
 
@@ -96,9 +97,17 @@ public class MappingHelper {
             try {
                 instance = clazz.newInstance();
             } catch (InstantiationException e) {
+                log.error("dbObject: " + dbObject);
+                log.error("clazz: " + clazz);
+                log.error("instance: " + instance);
                 log.error(e.getMessage(), e);
+                throw new MappingException(e);
             } catch (IllegalAccessException e) {
+                log.error("dbObject: " + dbObject);
+                log.error("clazz: " + clazz);
+                log.error("instance: " + instance);
                 log.error(e.getMessage(), e);
+                throw new MappingException(e);
             }
         }
 
@@ -134,7 +143,7 @@ public class MappingHelper {
 
     }
 
-    private Set toSet(BasicDBList basicDBList, Type type) {
+    private Set toSet(BasicDBList basicDBList, Type type) throws MappingException {
         Set set = null;
         BasicDBObject basicDBObject = null;
 
@@ -155,15 +164,21 @@ public class MappingHelper {
                 }
             }
         } catch (InstantiationException e) {
+            log.error("BasicDBList: " + basicDBList);
+            log.error("Type: " + type);
             log.error(e.getMessage(), e);
+            throw new MappingException(e);
         } catch (IllegalAccessException e) {
+            log.error("BasicDBList: " + basicDBList);
+            log.error("Type: " + type);
             log.error(e.getMessage(), e);
+            throw new MappingException(e);
         }
 
         return set;
     }
 
-    private List toList(BasicDBList basicDBList, Type type) {
+    private List toList(BasicDBList basicDBList, Type type) throws MappingException {
         List list = null;
         BasicDBObject basicDBObject = null;
 
@@ -184,32 +199,46 @@ public class MappingHelper {
                 }
             }
         } catch (InstantiationException e) {
+            log.error("BasicDBList: " + basicDBList);
+            log.error("Type: " + type);
             log.error(e.getMessage(), e);
+            throw new MappingException(e);
         } catch (IllegalAccessException e) {
+            log.error("BasicDBList: " + basicDBList);
+            log.error("Type: " + type);
             log.error(e.getMessage(), e);
+            throw new MappingException(e);
         }
 
         return list;
     }
 
-    private void invokeSetter(Object object, String fieldName, Object value) {
+    private void invokeSetter(Object object, String fieldName, Object value) throws MappingException {
         try {
             Method method = mapperCache.getSetter(object, fieldName);
             method.invoke(object, value);
         } catch (InvocationTargetException e) {
+            log.error("object: " + object);
+            log.error("fieldName: " + fieldName);
+            log.error("value: " + value);
             log.error(e.getMessage(), e);
+            throw new MappingException(e);
         } catch (IllegalAccessException e) {
+            log.error("object: " + object);
+            log.error("fieldName: " + fieldName);
+            log.error("value: " + value);
             log.error(e.getMessage(), e);
+            throw new MappingException(e);
         }
     }
 
-    public DBObject toDBObject(Object object) {
+    public DBObject toDBObject(Object object) throws MappingException {
         BasicDBObjectBuilder basicDBObjectBuilder = BasicDBObjectBuilder.start();
         basicDBObjectBuilder.get().putAll(toMap(object));
         return basicDBObjectBuilder.get();
     }
 
-    public Map<String, Object> toMap(Object object) {
+    public Map<String, Object> toMap(Object object) throws MappingException {
         if (object != null) {
             return scanObject(object);
         }
@@ -221,7 +250,7 @@ public class MappingHelper {
         return basicDBObjectBuilder.get();
     }
 
-    private Map<String, Object> scanObject(Object object) {
+    private Map<String, Object> scanObject(Object object) throws MappingException {
 
         Map<String, Object> documentMap = new HashMap<String, Object>();
 
@@ -249,20 +278,6 @@ public class MappingHelper {
                                     ref.put("_id", objectId);
                                     log.debug("ref: " + ref);
                                     documentMap.put(field, ref);
-//                                    if (mapperCache.isSomeDBReferenced(fieldValue)) {
-//                                        log.debug("But " + mapperCache.getFieldClassName(object, field) + " also has some DBReferenced field(s)");
-//                                        DBObject dbObject = dbReferenceManager.insert(toDBObject(fieldValue), fieldValue.getClass());
-//                                        DBObject ref = new BasicDBObject();
-//                                        ref.put("ref", fieldValue.getClass().getName());
-//                                        ref.put("_id", (ObjectId)dbObject.get("_id"));
-//                                        documentMap.put(field, ref);
-//                                    } else {
-//                                        DBObject dbObject = dbReferenceManager.insert(toDBObject(fieldValue), fieldValue.getClass());
-//                                        DBObject ref = new BasicDBObject();
-//                                        ref.put("ref", fieldValue.getClass().getName());
-//                                        ref.put("_id", (ObjectId)dbObject.get("_id"));
-//                                        documentMap.put(field, ref);
-//                                    }
                                 } else {
                                     DBObject dbObject = dbReferenceManager.read(toDBObject(fieldValue), fieldValue.getClass());
                                     documentMap.put(field, dbObject);
@@ -300,38 +315,56 @@ public class MappingHelper {
                 }
             }
         } catch (Exception e) {
+            log.error("object: " + object);
+            log.error("fieldValue: " + fieldValue);
+            log.error("documentMap: " + documentMap);
             log.error(e.getMessage(), e);
+            throw new MappingException(e);
         }
 
         return documentMap;
     }
 
-    public Object setValue(Object instance, String fieldName, Object value) {
+    public Object setValue(Object instance, String fieldName, Object value) throws MappingException {
         try {
             Method method = mapperCache.getSetter(instance, fieldName);
             return method.invoke(instance, value);
         } catch (InvocationTargetException e) {
+            log.error("instance: " + instance);
+            log.error("fieldName: " + fieldName);
+            log.error("value: " + value);
             log.error(e.getMessage(), e);
+            throw new MappingException(e);
         } catch (IllegalAccessException e) {
+            log.error("instance: " + instance);
+            log.error("fieldName: " + fieldName);
+            log.error("value: " + value);
             log.error(e.getMessage(), e);
+            throw new MappingException(e);
         } catch (Throwable t) {
+            log.error("instance: " + instance);
+            log.error("fieldName: " + fieldName);
+            log.error("value: " + value);
             log.error(t.getMessage(), t);
+            throw new MappingException(t);
         }
-
-        return null;
     }
 
-    public Object getValue(Object instance, String fieldName) {
+    public Object getValue(Object instance, String fieldName) throws MappingException {
         try {
             Method method = mapperCache.getGetter(instance, fieldName);
             return method.invoke(instance);
         } catch (InvocationTargetException e) {
+            log.error("instance: " + instance);
+            log.error("fieldName: " + fieldName);
             log.error(e.getMessage(), e);
+            throw new MappingException(e);
         } catch (IllegalAccessException e) {
+            log.error("instance: " + instance);
+            log.error("fieldName: " + fieldName);
             log.error(e.getMessage(), e);
+            throw new MappingException(e);
         }
-
-        return null;
     }
 
 }

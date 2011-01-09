@@ -23,12 +23,18 @@ public class CacheObject {
     private Map<String, FieldCacheObject> cache = new HashMap<String, FieldCacheObject>();
     private boolean someDBReferenced = false;
 
+    private FieldCacheObject get(String key) {
+        return cache.get(key);
+    }
+
     public String[] getFields() {
         return (String[])cache.keySet().toArray(new String[cache.size()]);
     }
 
     public Object getFieldValue(Object object, String fieldName) {
-        FieldCacheObject fieldCacheObject = cache.get(fieldName);
+        FieldCacheObject fieldCacheObject = get(fieldName);
+
+        if (fieldCacheObject == null) return null;
 
         Object value = null;
         try {
@@ -47,39 +53,75 @@ public class CacheObject {
     }
 
     public Class getFieldClass(String fieldName) {
-        return (Class)cache.get(fieldName).getFieldType();
+        FieldCacheObject fieldCacheObject = get(fieldName);
+
+        if (fieldCacheObject == null) return null;
+
+        return (Class)fieldCacheObject.getFieldType();
     }
 
     public String getFieldClassName(String fieldName) {
-        return cache.get(fieldName).getClassName();
+        FieldCacheObject fieldCacheObject = get(fieldName);
+
+        if (fieldCacheObject == null) return null;
+
+        return fieldCacheObject.getClassName();
     }
 
     public Method getGetter(String fieldName) {
-        return cache.get(fieldName).getGetter();
+        FieldCacheObject fieldCacheObject = get(fieldName);
+
+        if (fieldCacheObject == null) return null;
+
+        return fieldCacheObject.getGetter();
     }
 
     public Method getSetter(String fieldName) {
-        return cache.get(fieldName).getSetter();
+        FieldCacheObject fieldCacheObject = get(fieldName);
+
+        if (fieldCacheObject == null) return null;
+
+        return fieldCacheObject.getSetter();
     }
 
     public Type getCollectionType(String fieldName) {
-        return cache.get(fieldName).getCollectionType();
+        FieldCacheObject fieldCacheObject = get(fieldName);
+
+        if (fieldCacheObject == null) return null;
+
+        return fieldCacheObject.getCollectionType();
     }
 
     public Type getCollectionArgumentType(String fieldName) {
-        return cache.get(fieldName).getCollectionArgumentType();
+        FieldCacheObject fieldCacheObject = get(fieldName);
+
+        if (fieldCacheObject == null) return null;
+
+        return fieldCacheObject.getCollectionArgumentType();
     }
 
     public boolean isCustom(String fieldName) {
-        return cache.get(fieldName).isCustom();
+        FieldCacheObject fieldCacheObject = get(fieldName);
+
+        if (fieldCacheObject == null) return false;
+
+        return fieldCacheObject.isCustom();
     }
 
     public boolean isCollection(String fieldName) {
-        return cache.get(fieldName).isCollection();
+        FieldCacheObject fieldCacheObject = get(fieldName);
+
+        if (fieldCacheObject == null) return false;
+
+        return fieldCacheObject.isCollection();
     }
 
     public boolean isDbReferenced(String fieldName) {
-        return cache.get(fieldName).isDbReferenced();
+        FieldCacheObject fieldCacheObject = get(fieldName);
+
+        if (fieldCacheObject == null) return false;
+
+        return fieldCacheObject.isDbReferenced();
     }
 
     protected FieldCacheObject newFieldCacheObject(Object object, Field field) {
