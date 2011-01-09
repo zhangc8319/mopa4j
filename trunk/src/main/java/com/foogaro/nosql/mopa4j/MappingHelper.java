@@ -304,7 +304,8 @@ public class MappingHelper {
                                 Set set = (Set)fieldValue;
                                 BasicDBList basicDBList = new BasicDBList();
                                 for (Object obj : set) {
-                                    basicDBList.add(obj);
+                                    DBObject dbo = toDBObject(obj);
+                                    basicDBList.add(dbo);
                                 }
                                 documentMap.put(field, basicDBList);
                             } else {

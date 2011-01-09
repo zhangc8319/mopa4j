@@ -18,47 +18,14 @@ public class PersistenceManager extends ABaseManager implements IPersistenceMana
 
     private static final Logger log = LoggerFactory.getLogger(PersistenceManager.class);
 
-//    public PersistenceManager() {
-//        super();
-//
-//        try {
-//            Type gs = getClass().getGenericSuperclass();
-//            ParameterizedType pt;
-//            if (gs instanceof ParameterizedType) {
-//                pt = (ParameterizedType) gs;
-//                Type[] ata = pt.getActualTypeArguments();
-//                if (ata != null && ata.length > 0) {
-//                    try {
-//                        this.classType = (Class<T>) ata[0];
-//                    } catch (Throwable t) {
-//                        log.error("Error while retrieving Generic Class type", t);
-//                    }
-//                }
-//
-//                if (ata != null && ata.length > 1) {
-//                    try {
-//                        this.classType = (Class<T>) ata[1];
-//                    } catch (Throwable t) {
-//                        log.error("Error while retrieving next Generic Class type", t);
-//                    }
-//                }
-//            }
-//        } catch (Exception e) {
-//            log.error("Error while configuring BaseManager", e);
-//            throw new PersistenceManagerException(e);
-//        }
-//
-//        log.debug("PersistenceManager created");
-//    }
-
     public DBObject create(DBObject dbObject, Class classType) {
-        log.debug("Creating document " + dbObject);
+        log.debug("Creating document: " + dbObject);
         getDBCollection(classType).insert(dbObject);
         return dbObject;
     }
 
     public DBObject read(DBObject dbObject, Class classType) {
-        log.debug("Reading document " + dbObject);
+        log.debug("Reading document: " + dbObject);
         BasicDBObject query = new BasicDBObject();
         query.put("_id", dbObject.get("_id"));
         DBObject result = getDBCollection(classType).findOne(query);
@@ -66,13 +33,13 @@ public class PersistenceManager extends ABaseManager implements IPersistenceMana
     }
 
     public DBObject update(DBObject dbObject, Class classType) {
-        log.debug("Updating document " + dbObject);
+        log.debug("Updating document: " + dbObject);
         getDBCollection(classType).save(dbObject);
         return dbObject;
     }
 
     public void delete(DBObject dbObject, Class classType) {
-        log.debug("Deleting document " + dbObject);
+        log.debug("Deleting document: " + dbObject);
         getDBCollection(classType).remove(dbObject);
     }
 
