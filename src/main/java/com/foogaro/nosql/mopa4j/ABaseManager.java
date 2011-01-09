@@ -1,16 +1,10 @@
 package com.foogaro.nosql.mopa4j;
 
-import com.foogaro.nosql.mopa4j.exception.PersistenceManagerException;
 import com.mongodb.CommandResult;
-import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.annotation.PostConstruct;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 
 /**
  * This class is used as base class for thoseones which need direct access to the MongoDB. 

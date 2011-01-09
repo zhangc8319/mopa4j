@@ -127,7 +127,7 @@ public class CacheObject {
     protected FieldCacheObject newFieldCacheObject(Object object, Field field) {
         FieldCacheObject fieldCacheObject = new FieldCacheObject();
         fieldCacheObject.setName(field.getName());
-        fieldCacheObject.setFieldType(field.getType());
+        fieldCacheObject.setFieldType(field);
         fieldCacheObject.setClassName(((Class)fieldCacheObject.getFieldType()).getName());
         fieldCacheObject.setGetter(getGetterMethod(object, fieldCacheObject));
         fieldCacheObject.setSetter(getSetterMethod(object, fieldCacheObject));
@@ -209,4 +209,11 @@ public class CacheObject {
         return someDBReferenced;
     }
 
+    @Override
+    public String toString() {
+        return "CacheObject{" +
+                "cache=" + cache +
+                ", someDBReferenced=" + someDBReferenced +
+                '}';
+    }
 }
