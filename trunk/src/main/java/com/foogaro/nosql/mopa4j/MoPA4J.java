@@ -30,22 +30,22 @@ public class MoPA4J {
     private MappingHelper mappingHelper;
 
     public Object create(Object object) {
-        DBObject dbObject = persistenceManager.create(toDBObject(object), object.getClass());
+        DBObject dbObject = persistenceManager.create(toDBObject(object, true), object.getClass());
         return toObject(dbObject, object);
     }
 
     public Object read(Object object) {
-        DBObject dbObject = persistenceManager.read(toDBObject(object), object.getClass());
+        DBObject dbObject = persistenceManager.read(toDBObject(object, true), object.getClass());
         return toObject(dbObject, object);
     }
 
     public Object update(Object object) {
-        DBObject dbObject = persistenceManager.update(toDBObject(object), object.getClass());
+        DBObject dbObject = persistenceManager.update(toDBObject(object, true), object.getClass());
         return toObject(dbObject, object);
     }
 
     public void delete(Object object) {
-        persistenceManager.delete(toDBObject(object), object.getClass());
+        persistenceManager.delete(toDBObject(object, false), object.getClass());
     }
 
     public List find(Class classType) {
@@ -67,8 +67,8 @@ public class MoPA4J {
     }
 
 
-    private DBObject toDBObject(Object object) {
-        return mappingHelper.toDBObject(object);
+    private DBObject toDBObject(Object object, boolean saving) {
+        return mappingHelper.toDBObject(object, saving);
     }
 
     private Object toObject(DBObject dbObject, Class clazz) {

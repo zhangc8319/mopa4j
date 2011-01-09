@@ -1,7 +1,5 @@
 package com.foogaro.nosql.mopa4j;
 
-import com.mongodb.DBObject;
-
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 

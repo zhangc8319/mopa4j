@@ -1,6 +1,5 @@
 package com.foogaro.nosql.mopa4j;
 
-import com.foogaro.nosql.mopa4j.persistence.PersistenceManager;
 import com.foogaro.nosql.mopa4j.query.QueryObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;

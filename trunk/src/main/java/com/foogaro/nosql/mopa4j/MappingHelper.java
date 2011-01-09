@@ -2,7 +2,10 @@ package com.foogaro.nosql.mopa4j;
 
 import com.foogaro.nosql.mopa4j.exception.MappingException;
 import com.foogaro.nosql.mopa4j.persistence.DBReferenceManager;
-import com.mongodb.*;
+import com.mongodb.BasicDBList;
+import com.mongodb.BasicDBObject;
+import com.mongodb.BasicDBObjectBuilder;
+import com.mongodb.DBObject;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +36,7 @@ public class MappingHelper {
     public Map<String, Object> toMQL(Object object) throws MappingException {
 
         Map<String, Object> map = new HashMap<String, Object>();
-        map.putAll(toMap(object));
+        map.putAll(toMap(object, false));
 
         Set<String> keys = map.keySet();
         Object value = null;
@@ -232,15 +235,15 @@ public class MappingHelper {
         }
     }
 
-    public DBObject toDBObject(Object object) throws MappingException {
+    public DBObject toDBObject(Object object, boolean saving) throws MappingException {
         BasicDBObjectBuilder basicDBObjectBuilder = BasicDBObjectBuilder.start();
-        basicDBObjectBuilder.get().putAll(toMap(object));
+        basicDBObjectBuilder.get().putAll(toMap(object, saving));
         return basicDBObjectBuilder.get();
     }
 
-    public Map<String, Object> toMap(Object object) throws MappingException {
+    public Map<String, Object> toMap(Object object, boolean saving) throws MappingException {
         if (object != null) {
-            return scanObject(object);
+            return scanObject(object, saving);
         }
         return null;
     }
@@ -250,7 +253,7 @@ public class MappingHelper {
         return basicDBObjectBuilder.get();
     }
 
-    private Map<String, Object> scanObject(Object object) throws MappingException {
+    private Map<String, Object> scanObject(Object object, boolean saving) throws MappingException {
 
         Map<String, Object> documentMap = new HashMap<String, Object>();
 
@@ -267,7 +270,7 @@ public class MappingHelper {
                                 log.debug("Looks like " + field + " is DBReferenced");
                                 Object idValue = mapperCache.getFieldValue(object, "_id");
                                 if (idValue == null) {
-                                    DBObject dbObject = dbReferenceManager.insert(toDBObject(fieldValue), fieldValue.getClass());
+                                    DBObject dbObject = dbReferenceManager.insert(toDBObject(fieldValue, saving), fieldValue.getClass());
                                     log.debug("dbObject: " + dbObject);
                                     ObjectId objectId = (ObjectId)dbObject.get("_id");
                                     log.debug("objectId: " + objectId);
@@ -279,11 +282,11 @@ public class MappingHelper {
                                     log.debug("ref: " + ref);
                                     documentMap.put(field, ref);
                                 } else {
-                                    DBObject dbObject = dbReferenceManager.read(toDBObject(fieldValue), fieldValue.getClass());
+                                    DBObject dbObject = dbReferenceManager.read(toDBObject(fieldValue, saving), fieldValue.getClass());
                                     documentMap.put(field, dbObject);
                                 }
                             } else {
-                                documentMap.put(field, toDBObject(fieldValue));
+                                documentMap.put(field, toDBObject(fieldValue, saving));
                             }
                         } else {
                             if (fieldValue.getClass().isArray()) {
@@ -304,13 +307,17 @@ public class MappingHelper {
                                 Set set = (Set)fieldValue;
                                 BasicDBList basicDBList = new BasicDBList();
                                 for (Object obj : set) {
-                                    DBObject dbo = toDBObject(obj);
+                                    DBObject dbo = toDBObject(obj, saving);
                                     basicDBList.add(dbo);
                                 }
                                 documentMap.put(field, basicDBList);
                             } else {
                                 documentMap.put(field, fieldValue);
                             }
+                        }
+                    } else {
+                        if (saving) {
+                            documentMap.put(field, null);
                         }
                     }
                 }

@@ -1,5 +1,9 @@
 package com.foogaro.nosql.mopa4j;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -10,6 +14,8 @@ import java.lang.reflect.Type;
  * @since 1.0.1
  */
 public class FieldCacheObject {
+
+    private static final Logger log = LoggerFactory.getLogger(FieldCacheObject.class);
 
     private String name;
     private Method getter;
@@ -52,10 +58,10 @@ public class FieldCacheObject {
         return fieldType;
     }
 
-    public void setFieldType(Type fieldType) {
-        this.fieldType = fieldType;
-        if (this.fieldType instanceof ParameterizedType) {
-            ParameterizedType parameterizedType = (ParameterizedType) this.fieldType;
+    public void setFieldType(Field field) {
+        this.fieldType = field.getType();
+        if (field.getGenericType() instanceof ParameterizedType) {
+            ParameterizedType parameterizedType = (ParameterizedType) field.getGenericType();
             Type[] types = parameterizedType.getActualTypeArguments();
             if (types.length == 1) {
                 this.collection = true;
@@ -63,7 +69,13 @@ public class FieldCacheObject {
                 this.collectionArgumentType = types[0];
             }
         }
-        if (((Class)this.fieldType).getPackage() == null || ((Class)this.fieldType).getPackage().getName().indexOf("java.") == 0) {
+
+        if (
+            ((Class)this.fieldType).getPackage() == null ||
+            ((Class)this.fieldType).getPackage().getName().indexOf("java.") == 0 ||
+            ((Class)this.fieldType).getPackage().getName().indexOf("org.bson") == 0 ||
+            ((Class)this.fieldType).getPackage().getName().indexOf("com.mongodb") == 0
+                ) {
             this.custom = false;
         } else {
             this.custom = true;
@@ -100,5 +112,21 @@ public class FieldCacheObject {
 
     public void setDbReferenced(boolean dbReferenced) {
         this.dbReferenced = dbReferenced;
+    }
+
+    @Override
+    public String toString() {
+        return "FieldCacheObject{" +
+                "name='" + name + '\'' +
+                ", getter=" + getter +
+                ", setter=" + setter +
+                ", className='" + className + '\'' +
+                ", fieldType=" + fieldType +
+                ", collectionType=" + collectionType +
+                ", collectionArgumentType=" + collectionArgumentType +
+                ", custom=" + custom +
+                ", collection=" + collection +
+                ", dbReferenced=" + dbReferenced +
+                '}';
     }
 }
