@@ -34,8 +34,12 @@ public class CacheObject {
         try {
             value = fieldCacheObject.getGetter().invoke(object);
         } catch (IllegalAccessException e) {
+            log.error("Object: " + object);
+            log.error("fieldName: " + fieldName);
             log.error(e.getMessage(), e);
         } catch (InvocationTargetException e) {
+            log.error("Object: " + object);
+            log.error("fieldName: " + fieldName);
             log.error(e.getMessage(), e);
         }
 
@@ -98,6 +102,8 @@ public class CacheObject {
         try {
             method = object.getClass().getMethod(getGetterMethodName(fieldCacheObject));
         } catch (NoSuchMethodException e) {
+            log.error("Object: " + object);
+            log.error("FieldCacheObject: " + fieldCacheObject);
             log.error(e.getMessage(), e);
         }
         return method;
@@ -112,33 +118,49 @@ public class CacheObject {
                 method = object.getClass().getMethod(getSetterMethodName(fieldCacheObject), (Class)fieldCacheObject.getFieldType());
             }
         } catch (NoSuchMethodException e) {
+            log.error("Object: " + object);
+            log.error("FieldCacheObject: " + fieldCacheObject);
             log.error(e.getMessage(), e);
         }
         return method;
     }
 
     private String getGetterMethodName(FieldCacheObject fieldCacheObject) {
-        boolean isBoolean = false;
-        if (fieldCacheObject.getClassName().equals(Boolean.class.getName())) {
-            isBoolean = true;
+        try {
+            boolean isBoolean = false;
+            if (fieldCacheObject.getClassName().equals(Boolean.class.getName())) {
+                isBoolean = true;
+            }
+            if (isBoolean) {
+                return "is" + fieldCacheObject.getName().substring(0,1).toUpperCase() + fieldCacheObject.getName().substring(1);
+            } else {
+                return "get" + fieldCacheObject.getName().substring(0,1).toUpperCase() + fieldCacheObject.getName().substring(1);
+            }
+        } catch (Exception e) {
+            log.error("FieldCacheObject: " + fieldCacheObject);
+            log.error(e.getMessage(), e);
         }
-        if (isBoolean) {
-            return "is" + fieldCacheObject.getName().substring(0,1).toUpperCase() + fieldCacheObject.getName().substring(1);
-        } else {
-            return "get" + fieldCacheObject.getName().substring(0,1).toUpperCase() + fieldCacheObject.getName().substring(1);
-        }
+
+        return null;
     }
 
     private String getSetterMethodName(FieldCacheObject fieldCacheObject) {
-        boolean isBoolean = false;
-        if (fieldCacheObject.getClassName().equals(Boolean.class.getName())) {
-            isBoolean = true;
+        try {
+            boolean isBoolean = false;
+            if (fieldCacheObject.getClassName().equals(Boolean.class.getName())) {
+                isBoolean = true;
+            }
+            if (isBoolean) {
+                return "set" + fieldCacheObject.getName().substring(0,1).toUpperCase() + fieldCacheObject.getName().substring(1);
+            } else {
+                return "set" + fieldCacheObject.getName().substring(0,1).toUpperCase() + fieldCacheObject.getName().substring(1);
+            }
+        } catch (Exception e) {
+            log.error("FieldCacheObject: " + fieldCacheObject);
+            log.error(e.getMessage(), e);
         }
-        if (isBoolean) {
-            return "set" + fieldCacheObject.getName().substring(0,1).toUpperCase() + fieldCacheObject.getName().substring(1);
-        } else {
-            return "set" + fieldCacheObject.getName().substring(0,1).toUpperCase() + fieldCacheObject.getName().substring(1);
-        }
+
+        return null;
     }
 
     public boolean isSomeDBReferenced() {

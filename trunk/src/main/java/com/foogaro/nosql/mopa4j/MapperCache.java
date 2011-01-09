@@ -90,7 +90,16 @@ public class MapperCache implements IMapperCache {
 
     protected CacheObject newCacheObject(Object object) {
         CacheObject cacheObject = new CacheObject();
-        Field[] fields = object.getClass().getDeclaredFields();
+        Field[] fields = null;
+
+        Class superClass = object.getClass().getSuperclass();
+        if (superClass != null) {
+            fields = superClass.getDeclaredFields();
+            for (Field field : fields) {
+                cacheObject.newFieldCacheObject(object, field);
+            }
+        }
+        fields = object.getClass().getDeclaredFields();
         for (Field field : fields) {
             cacheObject.newFieldCacheObject(object, field);
         }

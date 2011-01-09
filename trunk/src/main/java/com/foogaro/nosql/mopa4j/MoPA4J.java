@@ -81,6 +81,8 @@ public class MoPA4J {
 
         LinkedList<DBObject> result = new LinkedList<DBObject>();
 
+        if (queryObject == null) return result;
+        
         List<String> operators = queryObject.getQueryOperators();
         List<DBObject> parameters = queryObject.getQueryParameters();
 
